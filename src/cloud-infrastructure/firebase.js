@@ -1,8 +1,13 @@
 import { initializeApp } from "firebase/app";
 import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
     getFirestore,
+    query,
+    where,
 } from "firebase/firestore";
-
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -16,3 +21,35 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+
+
+
+/* Courses */
+export async function getCourses() {
+    const courseCollection = collection(firestore, "courses");
+    const courseItems = await getDocs(courseCollection);
+    const courses = courseItems.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+    });
+    return courses;
+}
+
+export async function getCourse(id) {
+    const courseDoc = doc(firestore, "courses", id);
+    const courseItems = await getDoc(courseDoc);
+    return courseItems.data();
+}
+
+/* Lessons */
+export async function getLesson(lesson_ref) {
+    const lesson_id = lesson_ref.id;
+    const lessonDoc = doc(firestore, "lessons", lesson_id);
+    const lessonItems = await getDoc(lessonDoc);
+    return { id: lesson_id, ...lessonItems.data() };
+}
+
+export async function getLessonFromID(lesson_id) {
+    const lessonDoc = doc(firestore, "lessons", lesson_id);
+    const lessonItems = await getDoc(lessonDoc);
+    return { id: lesson_id, ...lessonItems.data() };
+}

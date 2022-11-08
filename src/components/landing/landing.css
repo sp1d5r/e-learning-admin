@@ -24,3 +24,12 @@
     width: 80%;
     background-color: darkgray;
 }
+
+.courses {
+    height: 300px;
+    width: calc(100% - 20px);
+    margin: 10px;
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+}
