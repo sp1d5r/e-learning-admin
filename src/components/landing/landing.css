@@ -34,4 +34,15 @@
     overflow-x: scroll;
     display: flex;
     flex-direction: row;
+    align-items: center;
+}
+
+.minigames {
+    height: 395px;
+    width: calc(100% - 20px);
+    margin: 10px;
+    overflow-x: scroll;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
