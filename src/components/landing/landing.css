@@ -1,0 +1,26 @@
+.container-main {
+    width: 70vw;
+    padding-top: 50px;
+    margin: auto;
+}
+
+.divider {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    height: 50px;
+}
+
+.divider-text {
+    font-size: 15px;
+}
+
+.divider > p {
+    margin: 0;
+}
+.divider > div {
+    height: 1px;
+    width: 80%;
+    background-color: darkgray;
+}
