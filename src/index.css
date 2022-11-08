@@ -6,6 +6,7 @@
   --black: #000000;
   --light-grey: #989898;
   --light-blue: #4a5bb5;
+  --text: #212529;
 }
 
 body {
@@ -15,6 +16,10 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+p {
+  color: var(--text);
 }
 
 code {

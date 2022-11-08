@@ -1,9 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import {Button} from "react-bootstrap";
 
 function NavigationBar() {
+    const [nmode, setNMode] = useState(false);
+
+    const switchNight = () => {
+        let root;
+        root = document.querySelector(":root");
+        if (nmode){
+            root.style.setProperty("--white", "#fff");
+            root.style.setProperty("--black", "#000");
+            root.style.setProperty("--text", "#212529");
+            root.style.setProperty("--light-green", "#f6ffe8");
+        } else {
+            root.style.setProperty("--white", "#2e2e2e");
+            root.style.setProperty("--black", "#fff");
+            root.style.setProperty("--text", "#fff");
+            root.style.setProperty("--light-green", "#212529");
+        }
+
+        setNMode(!nmode);
+    }
+
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -13,6 +34,9 @@ function NavigationBar() {
                     <Nav.Link href="/deception-detection">Deception Detection</Nav.Link>
                     <Nav.Link href="/course">Course</Nav.Link>
                 </Nav>
+                <Button variant={nmode ? "dark" : "light"} onClick={() => {switchNight()}}>
+                    {`${nmode? "Light" : "Dark"}mode`}
+                </Button>
             </Container>
         </Navbar>
     )
