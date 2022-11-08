@@ -52,6 +52,16 @@ function Landing() {
                 </>
                 )}
             </div>
+
+            {/* Minigames */}
+            <div className={"divider"}>
+                <p className={"divider-text"}>
+                    Minigames
+                </p>
+                <div/>
+            </div>
+
+
         </div>
     )
 }
