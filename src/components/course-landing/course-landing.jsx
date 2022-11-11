@@ -5,7 +5,7 @@ import "./course-landing.css";
 import LessonCard from "./lesson-card/lesson-card";
 import CourseProfileCard from "./course-profile-card/course-profile-card";
 import { getCourse } from "../../cloud-infrastructure/firebase";
-import { Breadcrumb } from "react-bootstrap";
+import {Breadcrumb, Button} from "react-bootstrap";
 
 function CourseLanding() {
     /* The URL looks like : http://localhost:3000/course/?course_id=gvhvgvhv
@@ -13,6 +13,7 @@ function CourseLanding() {
     */
     const search_params = useSearchParams()[0];
     const course_id = search_params.get("course_id");
+    const [edit, setEdit] = useState(false);
     const [course_information, set_course_information] = useState({
         courseName: "Loading...",
         time: "time",
@@ -52,73 +53,82 @@ function CourseLanding() {
         }
     };
 
+    const pressedEdit = (editing) => {
+        setEdit(editing);
+    }
+
     return (
         <div className={"course-landing-main"}>
             <div className={"course-breadcrumbs"}>
                 <Breadcrumb className={"lesson-breadcrumb-bar"}>
                     <Breadcrumb.Item href="/">Home</Breadcrumb.Item>
-                    <Breadcrumb.Item href="/academy/">Academy</Breadcrumb.Item>
                     <Breadcrumb.Item active href={`/course/?course_id=`}>
                         {course_information.courseName}
                     </Breadcrumb.Item>
                 </Breadcrumb>
+                <Button variant={"danger"} onClick={()=>{pressedEdit(true)}}>Edit</Button>
             </div>
-            <div className={"course-landing-information"}>
-                <div className={"course-landing-title"}>
-                    {course_information.courseName}
-                </div>
-                <div className={"course-landing-time"}>
-                    <img
-                        className={"course-icon-size"}
-                        src={require("../../assets/time.png")}
-                        alt={`This course is expected to take 20 minutes`}
-                    />
-                    <p>{course_information.time} (mins)</p>
-                </div>
-                <div className={"course-landing-difficulty"}>
-                    <img
-                        className={"course-icon-size"}
-                        src={_get_difficulty()}
-                        alt={"This minigame is expected to take 30 minutes"}
-                    />
-                    <p>{_get_difficulty_name()}</p>
-                </div>
-            </div>
-            {loading ? (
-                <></>
-            ) : (
-                <div className={"course-content-lessons"}>
-                    <div className={"course-landing-content-section"}>
-                        <p className={"course-landing-content-title"}>lessons</p>
 
-                        <div className={"course-landing-content-section-child"}>
-                            {course_information &&
-                                course_information.lessons?.map((lesson_ref, index) => {
-                                    return (
-                                        <LessonCard
-                                            lesson_ref={lesson_ref}
-                                            course_id={course_id}
-                                            key={index}
-                                        />
-                                    );
-                                })}
+            {
+                edit ? (<></>) : <> {loading ? (
+                    <></>
+                ) : (
+                    <>
+                        <div className={"course-landing-information"}>
+                            <div className={"course-landing-title"}>
+                                {course_information.courseName}
+                            </div>
+                            <div className={"course-landing-time"}>
+                                <img
+                                    className={"course-icon-size"}
+                                    src={require("../../assets/time.png")}
+                                    alt={`This course is expected to take 20 minutes`}
+                                />
+                                <p>{course_information.time} (mins)</p>
+                            </div>
+                            <div className={"course-landing-difficulty"}>
+                                <img
+                                    className={"course-icon-size"}
+                                    src={_get_difficulty()}
+                                    alt={"This minigame is expected to take 30 minutes"}
+                                />
+                                <p>{_get_difficulty_name()}</p>
+                            </div>
                         </div>
+                        <div className={"course-content-lessons"}>
+                        <div className={"course-landing-content-section"}>
+                            <p className={"course-landing-content-title"}>lessons</p>
+
+                            <div className={"course-landing-content-section-child"}>
+                                {course_information &&
+                                    course_information.lessons?.map((lesson_ref, index) => {
+                                        return (
+                                            <LessonCard
+                                                lesson_ref={lesson_ref}
+                                                course_id={course_id}
+                                                key={index}
+                                            />
+                                        );
+                                    })}
+                            </div>
+                        </div>
+
+                        {window.innerWidth >= 450 && false ? (
+                            <div className={"course-content-card-right"}>
+                                <CourseProfileCard
+                                    course_name={course_information.courseName}
+                                    course_difficulty={course_information.difficulty}
+                                    course_duration={course_information.time}
+                                    course_img={course_information.thumbnail}
+                                />
+                            </div>
+                        ) : (
+                            <></>
+                        )}
                     </div>
-
-                    {window.innerWidth >= 450 && false ? (
-                        <div className={"course-content-card-right"}>
-                            <CourseProfileCard
-                                course_name={course_information.courseName}
-                                course_difficulty={course_information.difficulty}
-                                course_duration={course_information.time}
-                                course_img={course_information.thumbnail}
-                            />
-                        </div>
-                    ) : (
-                        <></>
-                    )}
-                </div>
-            )}
+                    </>
+                )}</>
+            }
         </div>
     );
 }
