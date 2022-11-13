@@ -17,6 +17,10 @@
   margin: 0px 20px;
 }
 
+.academy-content-minigame {
+  background: var(--course-card);
+}
+
 .academy-content-minigame:hover {
   background: var(--light-green);
   height: 370px;

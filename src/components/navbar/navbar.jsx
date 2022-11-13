@@ -14,12 +14,16 @@ function NavigationBar() {
             root.style.setProperty("--white", "#fff");
             root.style.setProperty("--black", "#000");
             root.style.setProperty("--text", "#212529");
+            root.style.setProperty("--course-card", "#fff");
             root.style.setProperty("--light-green", "#f6ffe8");
+            root.style.setProperty("background", "#fff");
         } else {
             root.style.setProperty("--white", "#2e2e2e");
             root.style.setProperty("--black", "#fff");
             root.style.setProperty("--text", "#fff");
+            root.style.setProperty("--course-card", "#212529");
             root.style.setProperty("--light-green", "#212529");
+            root.style.setProperty("background", "#2e2e2e");
         }
 
         setNMode(!nmode);
