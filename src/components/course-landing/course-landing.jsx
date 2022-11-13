@@ -3,7 +3,6 @@ import { useSearchParams } from "react-router-dom";
 import "./course-landing.css";
 
 import LessonCard from "./lesson-card/lesson-card";
-import CourseProfileCard from "./course-profile-card/course-profile-card";
 import { getCourse } from "../../cloud-infrastructure/firebase";
 import {Breadcrumb, Button, Form} from "react-bootstrap";
 
@@ -159,19 +158,6 @@ function CourseLanding() {
                                 }
                             </div>
                         </div>
-
-                        {window.innerWidth >= 450 && false ? (
-                            <div className={"course-content-card-right"}>
-                                <CourseProfileCard
-                                    course_name={course_information.courseName}
-                                    course_difficulty={course_information.difficulty}
-                                    course_duration={course_information.time}
-                                    course_img={course_information.thumbnail}
-                                />
-                            </div>
-                        ) : (
-                            <></>
-                        )}
                     </div>
                     </>
                 )}</>
