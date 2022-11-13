@@ -22,6 +22,17 @@
   align-items: center;
 }
 
+.course-image {
+  width: 30%;
+  aspect-ratio: 1;
+  margin: auto;
+}
+
+.editing-course-div {
+  width: 80%;
+  margin: 5% auto;
+}
+
 .course-content-lessons {
   outline: solid 3px #000;
   min-height: 100vh;

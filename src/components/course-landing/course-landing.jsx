@@ -5,7 +5,7 @@ import "./course-landing.css";
 import LessonCard from "./lesson-card/lesson-card";
 import CourseProfileCard from "./course-profile-card/course-profile-card";
 import { getCourse } from "../../cloud-infrastructure/firebase";
-import {Breadcrumb, Button} from "react-bootstrap";
+import {Breadcrumb, Button, Form} from "react-bootstrap";
 
 function CourseLanding() {
     /* The URL looks like : http://localhost:3000/course/?course_id=gvhvgvhv
@@ -53,8 +53,8 @@ function CourseLanding() {
         }
     };
 
-    const pressedEdit = (editing) => {
-        setEdit(editing);
+    const pressedEdit = () => {
+        setEdit(!edit);
     }
 
     return (
@@ -66,11 +66,57 @@ function CourseLanding() {
                         {course_information.courseName}
                     </Breadcrumb.Item>
                 </Breadcrumb>
-                <Button variant={"danger"} onClick={()=>{pressedEdit(true)}}>Edit</Button>
+                <Button variant={"danger"} onClick={()=>{pressedEdit()}}>Edit</Button>
             </div>
 
             {
-                edit ? (<></>) : <> {loading ? (
+                edit ? (<>
+                    <Form className={"editing-course-div"}>
+                        <Form.Group className={"mb-3"} style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
+                            <img alt={""} src={require("../../assets/logo.png")} className={"course-image"}/>
+                            <br/>
+                            <Button variant={"success"}>Upload New Course Image</Button>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicEmail">
+                            <Form.Label>Course Title</Form.Label>
+                            <Form.Control type="text" placeholder={course_information.courseName} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Course Difficulty</Form.Label>
+                            <Form.Select aria-label="Default select example">
+                                <option>Difficulty: {_get_difficulty_name()}</option>
+                                <option value="1">Easy</option>
+                                <option value="2">Medium</option>
+                                <option value="3">Hard</option>
+                            </Form.Select>
+                        </Form.Group>
+
+                        <Form.Group className="mb-3" controlId="formBasicPassword">
+                            <Form.Label>Course Time </Form.Label>
+                            <Form.Control type="text" placeholder={course_information.time} />
+                        </Form.Group>
+                        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+                            <Form.Label>Reorder Courses </Form.Label>
+                            <table>
+                                {course_information &&
+                                    course_information.lessons?.map((lesson_ref, index) => {
+                                        return (
+                                            <li>
+                                                lesson_ref
+                                            </li>
+                                        );
+                                    })
+                                }
+                            </table>
+                        </Form.Group>
+
+                        <Button variant="primary" type="submit">
+                            Submit
+                        </Button>
+                    </Form>
+                </>) : <> {loading ? (
                     <></>
                 ) : (
                     <>
@@ -109,7 +155,8 @@ function CourseLanding() {
                                                 key={index}
                                             />
                                         );
-                                    })}
+                                    })
+                                }
                             </div>
                         </div>
 
