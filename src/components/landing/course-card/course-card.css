@@ -18,11 +18,45 @@
   margin: 0px 20px;
 }
 
+.course-plus {
+  font-size: 50px;
+}
+
 .academy-content-course:hover {
   background: var(--light-green);
   height: 250px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.55);
 }
+
+.academy-content-course-add {
+  background: var(--course-card);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px;
+  height: 240px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  -webkit-animation: boxshadowin 5s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: boxshadowin 5s; /* Firefox < 16 */
+  -ms-animation: boxshadowin 5s; /* Internet Explorer */
+  -o-animation: boxshadowin 5s; /* Opera < 12.1 */
+  animation: boxshadowin 5s;
+  text-decoration: none;
+  margin: 0px 20px;
+}
+
+.academy-content-course-add:hover {
+  background: #007bff;
+  height: 250px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.55);
+}
+
+.academy-content-course-add > p {
+  margin: 0
+}
+
 
 .academy-content-course > * {
   -webkit-animation: fadein 3s; /* Safari, Chrome and Opera > 12.1 */

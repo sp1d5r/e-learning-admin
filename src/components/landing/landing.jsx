@@ -4,6 +4,7 @@ import {getCourses} from "../../cloud-infrastructure/firebase";
 import CourseCard from "./course-card/course-card";
 import {useState, useEffect} from "react";
 import MiniGameCard from "./minigame-card/minigame-card";
+import AddCourseCard from "./course-card/add-course-card";
 
 function Landing() {
     const [courses, setCourses] = useState([]);
@@ -62,6 +63,7 @@ function Landing() {
                 <></>
             ) : (
                 <>
+                    <AddCourseCard />
                     {courses.map((item, index) => {
                         return (
                             <CourseCard
