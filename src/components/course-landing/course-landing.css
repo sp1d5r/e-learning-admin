@@ -23,7 +23,7 @@
 }
 
 .course-image {
-  width: 30%;
+  width: 80%;
   aspect-ratio: 1;
   margin: auto;
 }
@@ -31,6 +31,14 @@
 .editing-course-div {
   width: 80%;
   margin: 5% auto;
+}
+
+.editing-image-div {
+  width: 40%;
+  outline: 1px solid;
+  padding: 5%;
+  border-radius: 5px;
+  margin: auto;
 }
 
 .course-content-lessons {

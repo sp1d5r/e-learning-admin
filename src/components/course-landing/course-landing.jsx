@@ -21,6 +21,7 @@ function CourseLanding() {
 
     const get_course_information = (course_id) => {
         getCourse(course_id).then((info) => {
+            console.log(info)
             set_course_information(info);
             setLoad(false);
         });
@@ -71,8 +72,8 @@ function CourseLanding() {
             {
                 edit ? (<>
                     <Form className={"editing-course-div"}>
-                        <Form.Group className={"mb-3"} style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
-                            <img alt={""} src={require("../../assets/logo.png")} className={"course-image"}/>
+                        <Form.Group className={"mb-3 editing-image-div"} style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
+                            <img alt={""} src={course_information.thumbnail} className={"course-image"}/>
                             <br/>
                             <Button variant={"success"}>Upload New Course Image</Button>
                         </Form.Group>
