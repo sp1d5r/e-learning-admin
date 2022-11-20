@@ -1,7 +1,14 @@
-import React from "react";
+import React, {useEffect} from "react";
 import "./deception-video.css";
 
-function DeceptionVideo() {
+function DeceptionVideo({doc}) {
+
+    useEffect(
+        () => {
+            console.log(doc)
+        },
+        [doc]
+    )
 
     return <>
         <div className={"true-false-video"} >

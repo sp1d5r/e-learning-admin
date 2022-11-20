@@ -84,5 +84,7 @@ export async function getAllDeceptionVideos(start, end, count){
     );
 
     const deceptionSnapshot = await getDocs(deceptionQuery);
-    return deceptionSnapshot.docs;
+    return deceptionSnapshot.docs.map((doc) => {
+        return { id: doc.id, ...doc.data() };
+    });
 }

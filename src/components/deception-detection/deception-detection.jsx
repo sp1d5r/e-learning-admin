@@ -36,7 +36,7 @@ function DeceptionDetection() {
             <div className={"deceotion-videos"}>
                 {
                     lessons.map((doc) => {
-                        return <DeceptionVideo />
+                        return <DeceptionVideo doc={doc}/>
                     })
                 }
             </div>
