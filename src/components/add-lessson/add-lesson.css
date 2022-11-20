@@ -1,0 +1,29 @@
+.editing-lesson-md {
+    width: 80%;
+    outline: 1px solid;
+    padding: 5%;
+    border-radius: 5px;
+    margin: auto;
+}
+
+.lesson-upload-div {
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+.divider-div {
+    outline: 0.5px solid darkgray;
+    width: 100%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.markdown-container {
+    width: 90%;
+    margin: auto;
+}
+
+.lesson-landing-body-markdown > p {
+    width: 100%;
+}

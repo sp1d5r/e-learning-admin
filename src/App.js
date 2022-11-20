@@ -5,6 +5,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import CourseLanding from "./components/course-landing/course-landing";
 import DeceptionDetection from "./components/deception-detection-landing/minigame";
 import AddCourse from "./components/add-course/add-course";
+import AddLesson from "./components/add-lessson/add-lesson";
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
             <Routes>
                 <Route path="/course/" element={<CourseLanding />} />
                 <Route path={"/add-course"} element={<AddCourse />} />
+                <Route path={"/add-lesson"} element={<AddLesson />} />
                 <Route path="/minigame/Catch%20a%20Liar" element={<DeceptionDetection />} />
                 <Route path="/" element={<Landing />} />
             </Routes>
