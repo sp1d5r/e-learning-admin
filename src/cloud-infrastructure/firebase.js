@@ -5,6 +5,7 @@ import {
     getDoc,
     getDocs,
     getFirestore,
+    getCountFromServer,
     query,
     where,
 } from "firebase/firestore";
@@ -52,4 +53,36 @@ export async function getLessonFromID(lesson_id) {
     const lessonDoc = doc(firestore, "lessons", lesson_id);
     const lessonItems = await getDoc(lessonDoc);
     return { id: lesson_id, ...lessonItems.data() };
+}
+
+
+/* Deception Detection */
+export async function getCountOfMinigames(){
+    const deceptionDetectionCol = collection(firestore, "deception-detection");
+    const snapshot = await getCountFromServer(deceptionDetectionCol);
+    return snapshot.data().count
+}
+
+export async function getAllDeceptionVideos(start, end, count){
+    const max_index = Math.min(end, count);
+
+    // Assertion
+    if (start >= max_index ){
+        return ;
+    }
+
+    const indexes = [];
+
+    for (let i=start; i<max_index; i++){
+        indexes.push(i);
+    }
+
+    const deceptionDetectionCol = collection(firestore, "deception-detection");
+    const deceptionQuery = query(
+        deceptionDetectionCol,
+        where("index", "in", indexes),
+    );
+
+    const deceptionSnapshot = await getDocs(deceptionQuery);
+    return deceptionSnapshot.docs;
 }

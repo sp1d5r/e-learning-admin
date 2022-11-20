@@ -1,9 +1,28 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import "./deception-detection.css";
 import DeceptionVideo from "./deception-video/deception-video";
+import {getAllDeceptionVideos, getCountOfMinigames} from "../../cloud-infrastructure/firebase";
 
 function DeceptionDetection() {
-    const deception = [1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1];
+    const [lessons, setLessons] = useState([]);
+    const [numberOfLessons, setLessonCount] = useState(0);
+
+    useEffect(() => {
+        getCountOfMinigames().then((count) => {
+            setLessonCount(count);
+            for (let i=0; i<count; i=i+50){
+                getAllDeceptionVideos(i, i+50, count).then((docs) => {
+                    let lessonDocs = [];
+                    docs.forEach((doc) => {
+                        console.log(doc)
+                        lessonDocs.push(doc);
+                    })
+                    setLessons(lessonDocs);
+                    console.log(lessonDocs)
+                })
+            }
+        })
+    }, [])
 
     return <>
         <div className={"deception"}>
@@ -16,7 +35,7 @@ function DeceptionDetection() {
 
             <div className={"deceotion-videos"}>
                 {
-                    deception.map((item) => {
+                    lessons.map((doc) => {
                         return <DeceptionVideo />
                     })
                 }
