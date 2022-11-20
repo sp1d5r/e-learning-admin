@@ -2,6 +2,7 @@ import React, {useEffect, useState} from "react";
 import "./deception-detection.css";
 import DeceptionVideo from "./deception-video/deception-video";
 import {getAllDeceptionVideos, getCountOfMinigames} from "../../cloud-infrastructure/firebase";
+import DeceptionVideoAdd from "./deception-video-add/deception-video-add";
 
 function DeceptionDetection() {
     const [lessons, setLessons] = useState([]);
@@ -34,6 +35,7 @@ function DeceptionDetection() {
             </div>
 
             <div className={"deceotion-videos"}>
+                <DeceptionVideoAdd />
                 {
                     lessons.map((doc) => {
                         return <DeceptionVideo doc={doc}/>

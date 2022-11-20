@@ -1,4 +1,4 @@
-.true-false-video {
+.deception-detection-add {
     width: 80%;
     margin: auto;
     outline: 1px solid;
@@ -8,11 +8,17 @@
     padding: 5px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    color: var(--text);
-    background-color: var(--course-card);
+    justify-content: space-evenly;
+    align-items: center;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
+
+
+.deception-detection-add:hover {
+    background: #007bff;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.55);
+}
+
 
 .video {
     width: 100%;
