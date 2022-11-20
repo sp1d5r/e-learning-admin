@@ -116,7 +116,7 @@
 }
 
 .course-lesson-add {
-  background: var(--white);
+  background: var(--course-card);
   box-shadow: 2px 4px 4px rgb(0 0 0 / 25%);
   border-radius: 20px;
   height: 350px;
