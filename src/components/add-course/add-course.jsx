@@ -1,11 +1,14 @@
 import React, {useState} from "react";
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 
 function AddCourse() {
-    const [thumbnail, setThumbnail] = useState("../../../")
+    const [thumbnail, setThumbnail] = useState()
+    const fileInput = React.createRef();
+
     const [courseName, setCourseName] = useState("")
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
+    const [errors, setErrors] = useState([]);
 
     const _get_difficulty_name = () => {
         if (difficulty === 0) {
@@ -19,14 +22,43 @@ function AddCourse() {
         }
     };
 
+    const upload_image = (image) => {
+        console.log(image)
+        const objectUrl = URL.createObjectURL(image[0])
+        setThumbnail(objectUrl)
+
+        // free memory when ever this component is unmounted
+        return () => URL.revokeObjectURL(objectUrl)
+    }
+
+    const submit = () => {
+        setErrors(["Sorry this function is not ready yet"]);
+        window.scrollTo(0,0);
+    }
+
     return (
         <>
+
             <Form className={"editing-course-div"}>
+                <div className="divider"><p className="divider-text">new course</p>
+                    <div></div>
+                </div>
+                {
+                    errors.length > 0 && <Alert variant={"danger"}>
+                        <b>There are a few errors on your forum</b>
+                        <ul>
+                            {errors.length > 0 && errors.map((error) => {
+                                return <li>{error}</li>
+                            })}
+                        </ul>
+                    </Alert>
+                }
                 <Form.Group className={"mb-3 editing-image-div"} style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
-                    <img alt={""} src={thumbnail} className={"course-image"}/>
+                    <Form.Label>Upload Thumbnail</Form.Label>
+                    <img alt={""} src={thumbnail ? thumbnail : require("../../assets/add-course.png")} className={"course-image"}/>
                     <br/>
                     <Form.Group controlId="formFile" className="mb-3">
-                        <Form.Control type="file" />
+                        <input className="form-control" type={"file"} ref={fileInput} onChange={(e) => upload_image((e.target.files))}/>
                     </Form.Group>
                 </Form.Group>
 
@@ -66,7 +98,7 @@ function AddCourse() {
                     </Form.Text>
                 </Form.Group>
 
-                <Button variant="primary" type="submit">
+                <Button variant="primary" onClick={() => {submit()}}>
                     Submit
                 </Button>
             </Form>
