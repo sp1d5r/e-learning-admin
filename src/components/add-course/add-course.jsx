@@ -26,9 +26,6 @@ function AddCourse() {
         console.log(image)
         const objectUrl = URL.createObjectURL(image[0])
         setThumbnail(objectUrl)
-
-        // free memory when ever this component is unmounted
-        return () => URL.revokeObjectURL(objectUrl)
     }
 
     const submit = () => {
