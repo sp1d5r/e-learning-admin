@@ -3,27 +3,23 @@ import "./deception-video.css";
 
 function DeceptionVideo({doc}) {
 
-    useEffect(
-        () => {
-            console.log(doc)
-        },
-        [doc]
-    )
-
     return <>
         <div className={"true-false-video"} >
             <div className={"video"}>
-                <video />
+                <video src={doc.videoUrl} style={{width: "90%", margin: "auto"}}/>
 
             </div>
             <div>
-                <span className={"video-answer"}>Answer:</span> <span >True</span>
+                <span className={"video-answer"}>Answer:</span> <span >{`${doc.correctOption}`}</span>
             </div>
             <div>
                 <span className={"video-answer"}>Explanation:</span>
                 <span>
-                This is the explanation for the video.
+                {doc.correctPrompt}
                 </span>
+            </div>
+            <div>
+                <span className={"video-answer"}>Index:</span> <span >{`${doc.index}`}</span>
             </div>
         </div>
     </>
