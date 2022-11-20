@@ -1,0 +1,11 @@
+.deception {
+    width: 80%;
+    margin: auto;
+    margin-top: 2%;
+}
+
+.deceotion-videos {
+    display: grid;
+    gap: 1px;
+    grid-template-columns: repeat(3, 1fr);
+}

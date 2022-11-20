@@ -1,0 +1,13 @@
+.true-false-video {
+    width: 80%;
+    margin: auto;
+    outline: 1px solid;
+    border-radius: 20px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 5px;
+}
+
+.video-answer {
+    font-weight: bold;
+}
