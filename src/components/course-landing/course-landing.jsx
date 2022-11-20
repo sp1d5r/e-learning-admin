@@ -5,6 +5,7 @@ import "./course-landing.css";
 import LessonCard from "./lesson-card/lesson-card";
 import { getCourse } from "../../cloud-infrastructure/firebase";
 import {Breadcrumb, Button, Form} from "react-bootstrap";
+import AddLessonCard from "./lesson-card/add-lesson-card";
 
 function CourseLanding() {
     /* The URL looks like : http://localhost:3000/course/?course_id=gvhvgvhv
@@ -146,6 +147,9 @@ function CourseLanding() {
                             <p className={"course-landing-content-title"}>lessons</p>
 
                             <div className={"course-landing-content-section-child"}>
+                                <AddLessonCard
+                                    course_id={course_id}
+                                />
                                 {course_information &&
                                     course_information.lessons?.map((lesson_ref, index) => {
                                         return (
