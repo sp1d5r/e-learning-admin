@@ -2,6 +2,7 @@ import React, {createRef, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "./add-lesson.css"
 import Markdown from "markdown-to-jsx";
+import axios from "axios";
 
 function AddLesson() {
     /* Markdown File Handle */
@@ -33,10 +34,10 @@ function AddLesson() {
     const upload_markdown = (file) => {
         const objectUrl = URL.createObjectURL(file[0])
 
-        // axios.get(objectUrl).then(function (response) {
-        //     // handle success
-        //     setContent(response.data);
-        // });
+        axios.get(objectUrl).then(function (response) {
+            // handle success
+            setContent(response.data);
+        });
 
         // clear memory to prevent leaks
         // URL.revokeObjectURL(objectUrl)

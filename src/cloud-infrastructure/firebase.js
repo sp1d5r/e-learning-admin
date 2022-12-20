@@ -9,6 +9,10 @@ import {
     query,
     where,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
+
 
 const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -22,7 +26,10 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const firestore = getFirestore(app);
+const auth = getAuth(app);
+const storageRef = getStorage(app);
 
+export default auth;
 
 
 /* Courses */
@@ -88,3 +95,30 @@ export async function getAllDeceptionVideos(start, end, count){
         return { id: doc.id, ...doc.data() };
     });
 }
+
+
+
+/* Upload Image to Firebase Storage */
+
+export function uploadFile(file, onSuccessCallBack, onFailureCallback) {
+    const fileRef = ref(storageRef, "course-images/" + file.name);
+    uploadBytes(fileRef, file).then((snapshot) => {
+        console.log('Uploaded a blob or file!');
+        console.log(snapshot);
+        console.log("course-path", "")
+        getDownloadURL(snapshot.ref).then((url) => {
+            onSuccessCallBack(url);
+        }).catch((e) => {
+            console.error("Could not get download url");
+            console.error(e.toString());
+            onFailureCallback("Could not get Download URL - " + e.toString())
+        })
+    }).catch((e) => {
+        console.error("FAILED TO UPLOAD IMAGE" + file.name);
+        console.error(e);
+        onFailureCallback("Failed to upload image - " + e.toString())
+
+    });
+}
+
+/* FINISH UPLOAD IMAGE*/

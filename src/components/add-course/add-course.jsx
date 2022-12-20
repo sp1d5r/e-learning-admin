@@ -1,5 +1,6 @@
 import React, {useState} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
+import {uploadFile} from "../../cloud-infrastructure/firebase";
 
 function AddCourse() {
     const [thumbnail, setThumbnail] = useState()
@@ -9,6 +10,8 @@ function AddCourse() {
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
     const [errors, setErrors] = useState([]);
+    const [refresh, setRefresh] = useState(false);
+    const [url, setURL] = useState("");
 
     const _get_difficulty_name = () => {
         if (difficulty === 0) {
@@ -22,14 +25,37 @@ function AddCourse() {
         }
     };
 
+    const successful_image_upload = (url) => {
+        setURL(url);
+    }
+
+    const failed_image_upload = (errors) => {
+        setErrors([errors]);
+        setRefresh(!refresh);
+    }
+
     const upload_image = (image) => {
         console.log(image)
         const objectUrl = URL.createObjectURL(image[0])
         setThumbnail(objectUrl)
+        uploadFile(image[0], successful_image_upload, failed_image_upload);
+    }
+
+    const checkFields = () => {
+        const err = [];
+        if (courseName === "") {
+            err.push("Add Course Name")
+        }
+
+        if (!thumbnail) {
+            err.push("Set Thumbnail")
+        }
+        setErrors(err);
+        setRefresh(!refresh);
     }
 
     const submit = () => {
-        setErrors(["Sorry this function is not ready yet"]);
+        checkFields();
         window.scrollTo(0,0);
     }
 
