@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
-import {uploadFile} from "../../cloud-infrastructure/firebase";
+import {uploadCourse, uploadFile} from "../../cloud-infrastructure/firebase";
+import {useNavigate} from "react-router-dom";
 
 function AddCourse() {
     const [thumbnail, setThumbnail] = useState()
@@ -12,6 +13,7 @@ function AddCourse() {
     const [errors, setErrors] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [url, setURL] = useState("");
+    const navigate = useNavigate();
 
     const _get_difficulty_name = () => {
         if (difficulty === 0) {
@@ -34,6 +36,15 @@ function AddCourse() {
         setRefresh(!refresh);
     }
 
+    const successful_course_upload = (course_id) => {
+        navigate(`/course/?course_id=${course_id}`);
+    }
+
+    const failed_course_upload = (errors) => {
+        setErrors([errors]);
+        setRefresh(!refresh);
+    }
+
     const upload_image = (image) => {
         console.log(image)
         const objectUrl = URL.createObjectURL(image[0])
@@ -47,15 +58,23 @@ function AddCourse() {
             err.push("Add Course Name")
         }
 
+        if (url === "") {
+            err.push("Thumbnail not uploaded successfully")
+        }
+
         if (!thumbnail) {
             err.push("Set Thumbnail")
         }
         setErrors(err);
         setRefresh(!refresh);
+        return err.length === 0;
     }
 
     const submit = () => {
-        checkFields();
+        if (checkFields()) {
+            uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
+        }
+
         window.scrollTo(0,0);
     }
 
@@ -66,6 +85,14 @@ function AddCourse() {
                 <div className="divider"><p className="divider-text">new course</p>
                     <div></div>
                 </div>
+                {
+                    url ?
+                        <Alert variant={"primary"}>
+                            Image uploaded Successfully! You can upload this course now: <a>{url}</a>
+                        </Alert> :
+                        <></>
+                }
+
                 {
                     errors.length > 0 && <Alert variant={"danger"}>
                         <b>There are a few errors on your forum</b>

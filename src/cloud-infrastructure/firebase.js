@@ -4,6 +4,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    addDoc,
     getFirestore,
     getCountFromServer,
     query,
@@ -46,6 +47,24 @@ export async function getCourse(id) {
     const courseDoc = doc(firestore, "courses", id);
     const courseItems = await getDoc(courseDoc);
     return courseItems.data();
+}
+
+export function uploadCourse(courseName, thumbnail, time, difficulty, successCallback, failedCallback){
+    const docRef = addDoc(collection(firestore, "courses"), {
+        courseName: courseName,
+        thumbnail: thumbnail,
+        time: time,
+        difficulty: difficulty,
+        lessons: [],
+        lessonNames: []
+    }).then((snapshot) => {
+        console.log("Successfully uploaded course" + snapshot.id);
+        successCallback(snapshot.id)
+    }).catch((e) => {
+        console.log("Failed to upload course");
+        console.log(e);
+        failedCallback("Failed to upload course: " + e.toString());
+    });
 }
 
 /* Lessons */
