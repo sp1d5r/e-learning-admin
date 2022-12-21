@@ -90,41 +90,61 @@ export async function getCountOfMinigames(){
 }
 
 export async function getAllDeceptionVideos(start, end, count){
-    const max_index = Math.min(end, count);
-
-    // Assertion
-    if (start >= max_index ){
-        return ;
-    }
-
-    const indexes = [];
-
-    for (let i=start; i<max_index; i++){
-        indexes.push(i);
-    }
+    // const max_index = Math.min(end, count);
+    //
+    // // Assertion
+    // if (start >= max_index ){
+    //     return ;
+    // }
+    //
+    // const indexes = [];
+    //
+    // for (let i=start; i<max_index; i++){
+    //     indexes.push(i);
+    // }
 
     const deceptionDetectionCol = collection(firestore, "deception-detection");
-    const deceptionQuery = query(
-        deceptionDetectionCol,
-        where("index", "in", indexes),
-    );
+    // const deceptionQuery = query(
+    //     deceptionDetectionCol,
+    //     where("index", "in", indexes),
+    // );
 
-    const deceptionSnapshot = await getDocs(deceptionQuery);
+    const deceptionSnapshot = await getDocs(deceptionDetectionCol);
     return deceptionSnapshot.docs.map((doc) => {
         return { id: doc.id, ...doc.data() };
     });
+}
+
+export function uploadDeceptionDetection(correctOption, correctPrompt, source, url, successCallback, failedCallback){
+
+    getCountOfMinigames().then(
+        (count) => {
+            addDoc(collection(firestore, "deception-detection"), {
+                index: count,
+                correctOption: correctOption,
+                correctPrompt: correctPrompt,
+                source: source,
+                url: url
+            }).then((snapshot) => {
+                console.log("Successfully uploaded data!");
+                successCallback(snapshot.id);
+            }).catch((e) => {
+                failedCallback("Failed to upload data - " + (e.toString()));
+            })
+        }
+    ).catch((e) => {
+        failedCallback("Failed to get count of videos - " + (e.toString()));
+    })
 }
 
 
 
 /* Upload Image to Firebase Storage */
 
-export function uploadFile(file, onSuccessCallBack, onFailureCallback) {
-    const fileRef = ref(storageRef, "course-images/" + file.name);
+export function uploadFile(file, url, onSuccessCallBack, onFailureCallback) {
+    const fileRef = ref(storageRef, url + file.name);
     uploadBytes(fileRef, file).then((snapshot) => {
-        console.log('Uploaded a blob or file!');
-        console.log(snapshot);
-        console.log("course-path", "")
+        console.log('Uploaded the file!');
         getDownloadURL(snapshot.ref).then((url) => {
             onSuccessCallBack(url);
         }).catch((e) => {

@@ -49,7 +49,7 @@ function AddCourse() {
         console.log(image)
         const objectUrl = URL.createObjectURL(image[0])
         setThumbnail(objectUrl)
-        uploadFile(image[0], successful_image_upload, failed_image_upload);
+        uploadFile(image[0], "course-images/", successful_image_upload, failed_image_upload);
     }
 
     const checkFields = () => {

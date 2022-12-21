@@ -8,6 +8,7 @@ import DeceptionDetection from "./components/deception-detection/deception-detec
 import Landing from "./components/landing/landing";
 import Login from "./components/login/login";
 import {useAuth} from "./cloud-infrastructure/auth";
+import AddDeceptionDetection from "./components/add-deception-detection/add-deception-detection";
 
 function PageRoutes() {
     const {current_user} = useAuth();
@@ -23,6 +24,7 @@ function PageRoutes() {
                                 <Route path="/course/" element={<CourseLanding />} />
                                 <Route path={"/add-course"} element={<AddCourse />} />
                                 <Route path={"/add-lesson"} element={<AddLesson />} />
+                                <Route path={"/add-deception-detection"} element={<AddDeceptionDetection />} />
                                 <Route path={"/deception-detection"} element={<DeceptionDetection />} />
                                 <Route path="/minigame/Catch%20a%20Liar" element={<DeceptionDetection />} />
                                 <Route path="/" element={<Landing />} />
