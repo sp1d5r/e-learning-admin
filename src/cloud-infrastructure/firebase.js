@@ -124,7 +124,7 @@ export function uploadDeceptionDetection(correctOption, correctPrompt, source, u
                 correctOption: correctOption,
                 correctPrompt: correctPrompt,
                 source: source,
-                url: url
+                videoUrl: url
             }).then((snapshot) => {
                 console.log("Successfully uploaded data!");
                 successCallback(snapshot.id);
