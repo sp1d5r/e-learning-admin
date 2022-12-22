@@ -116,7 +116,6 @@ export async function getAllDeceptionVideos(start, end, count){
 }
 
 export function uploadDeceptionDetection(correctOption, correctPrompt, source, url, successCallback, failedCallback){
-
     getCountOfMinigames().then(
         (count) => {
             addDoc(collection(firestore, "deception-detection"), {
