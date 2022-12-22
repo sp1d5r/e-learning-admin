@@ -4,6 +4,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    setDoc,
     addDoc,
     getFirestore,
     getCountFromServer,
@@ -65,6 +66,28 @@ export function uploadCourse(courseName, thumbnail, time, difficulty, successCal
         console.log(e);
         failedCallback("Failed to upload course: " + e.toString());
     });
+}
+
+export function editCourse(id, courseName, thumbnail, difficulty, lessons, successCallback, failedCallback) {
+    const data = {
+        courseName: courseName,
+        thumbnail: thumbnail,
+        difficulty: difficulty,
+        lessons: lessons.map((lesson) => {
+            return doc(firestore, "lessons/" + lesson.id)
+        }),
+        lessonNames: lessons.map((lesson) => {
+            return lesson.title
+        })
+    };
+
+    setDoc(doc(firestore, "courses", id), data).then((_) => {
+            console.log("Successful Update");
+            successCallback("Successful Update");
+        }
+    ).catch((e) => {
+        failedCallback("Failed to update course " + e.toString())
+    })
 }
 
 /* Lessons */

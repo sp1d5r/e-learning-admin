@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
 import {useNavigate} from "react-router-dom";
-import {uploadCourse, uploadFile} from "../../../cloud-infrastructure/firebase";
+import {editCourse, uploadCourse, uploadFile} from "../../../cloud-infrastructure/firebase";
 import {Draggable} from "react-drag-reorder";
 
 function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficutly, lessons}) {
@@ -14,7 +14,7 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
     const [newLessons, newLessonsOrder] = useState(lessons.map((i) => {return i}));
     const [errors, setErrors] = useState([]);
     const [refresh, setRefresh] = useState(false);
-    const [url, setURL] = useState("");
+    const [url, setURL] = useState(courseThumbnail);
     const navigate = useNavigate();
 
     const _get_difficulty_name = () => {
@@ -38,8 +38,8 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
         setRefresh(!refresh);
     }
 
-    const successful_course_upload = (course_id) => {
-        navigate(`/course/?course_id=${course_id}`);
+    const successful_course_upload = () => {
+        window.location.reload();
     }
 
     const failed_course_upload = (errors) => {
@@ -74,7 +74,8 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
 
     const submit = () => {
         if (checkFields()) {
-            uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
+            editCourse(id, courseName, thumbnail, difficulty, newLessons, successful_course_upload, failed_course_upload)
+            // uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 
         window.scrollTo(0,0);
@@ -88,22 +89,23 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
         return result;
     }
 
+    function arraymove(arr, fromIndex, toIndex) {
+        var element = arr[fromIndex];
+        arr.splice(fromIndex, 1);
+        arr.splice(toIndex, 0, element);
+        return arr;
+    }
 
     const onDragEnd = (destination, source ) => {
         // dropped outside the list
-        if (!destination) return;
+        const newItems = arraymove(newLessons.map(i => {
+            return i
+        }), source, destination);
 
-        const newItems = reorder(lessons, source.index, destination.index);
-
-        const newItemSequence = newItems.map(
-            (el, index) => {
-                return el;
-            }
-        );
-
-        newLessonsOrder(newItemSequence);
-        console.log(newLessons);
+        newLessonsOrder(newItems);
+        console.log(newItems);
     };
+
 
     return (
         <>

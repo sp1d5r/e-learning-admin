@@ -4,9 +4,8 @@ import "./course-landing.css";
 
 import LessonCard from "./lesson-card/lesson-card";
 import {getCourse, getLesson} from "../../cloud-infrastructure/firebase";
-import {Breadcrumb, Button, Form} from "react-bootstrap";
+import {Breadcrumb, Button} from "react-bootstrap";
 import AddLessonCard from "./lesson-card/add-lesson-card";
-import {Draggable} from "react-drag-reorder";
 import EditCourse from "./edit-course/edit-course";
 
 function CourseLanding() {
