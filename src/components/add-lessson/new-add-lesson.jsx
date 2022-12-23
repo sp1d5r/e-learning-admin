@@ -129,9 +129,6 @@ function NewAddLesson() {
                         Check Pages Data (Console)
                     </Button>
                 </Form.Group>
-                <div>
-                    <p>Page Data</p>
-                </div>
             </Form>
         </>
     )
