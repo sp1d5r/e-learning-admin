@@ -83,6 +83,7 @@ function CourseLanding() {
                     <EditCourse
                         id={course_id}
                         courseThumbnail={course_information.thumbnail}
+                        coursColor={course_information.color}
                         courseTitle={course_information.courseName}
                         courseTime={course_information.time}
                         courseDifficutly={course_information.difficulty}

@@ -8,6 +8,7 @@ function AddCourse() {
     const fileInput = React.createRef();
 
     const [courseName, setCourseName] = useState("")
+    const [courseColor, setCourseColor] = useState("#000000");
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
     const [errors, setErrors] = useState([]);
@@ -72,7 +73,7 @@ function AddCourse() {
 
     const submit = () => {
         if (checkFields()) {
-            uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
+            uploadCourse(courseName, courseColor, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 
         window.scrollTo(0,0);
@@ -118,6 +119,17 @@ function AddCourse() {
                         (e) => {
                             if (e.target.value !==""){
                                 setCourseName(e.target.value)
+                            }
+                        }
+                    }/>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Course Color</Form.Label>
+                    <Form.Control type="text" placeholder={courseColor} style={{backgroundColor: courseColor}} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setCourseColor(e.target.value)
                             }
                         }
                     }/>

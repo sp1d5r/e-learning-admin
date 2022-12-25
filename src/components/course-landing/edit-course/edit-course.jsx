@@ -4,11 +4,12 @@ import {useNavigate} from "react-router-dom";
 import {editCourse, uploadCourse, uploadFile} from "../../../cloud-infrastructure/firebase";
 import {Draggable} from "react-drag-reorder";
 
-function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficutly, lessons}) {
+function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, courseDifficutly, lessons}) {
     const [thumbnail, setThumbnail] = useState(courseThumbnail)
     const fileInput = React.createRef();
 
-    const [courseName, setCourseName] = useState(courseTitle)
+    const [courseName, setCourseName] = useState(courseTitle);
+    const [courseColor, setCourseColor] = useState(coursColor);
     const [difficulty, setDifficulty] = useState(courseDifficutly);
     const [time, setTime] = useState(courseTime);
     const [newLessons, newLessonsOrder] = useState(lessons.map((i) => {return i}));
@@ -74,7 +75,7 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
 
     const submit = () => {
         if (checkFields()) {
-            editCourse(id, courseName, thumbnail, difficulty, newLessons, successful_course_upload, failed_course_upload)
+            editCourse(id, courseName, courseColor, thumbnail, difficulty, newLessons, successful_course_upload, failed_course_upload)
             // uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 
@@ -146,6 +147,17 @@ function EditCourse({id, courseThumbnail, courseTitle, courseTime, courseDifficu
                         (e) => {
                             if (e.target.value !==""){
                                 setCourseName(e.target.value)
+                            }
+                        }
+                    }/>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Course Color</Form.Label>
+                    <Form.Control type="text" placeholder={courseColor} style={{backgroundColor: courseColor}} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setCourseColor(e.target.value)
                             }
                         }
                     }/>
