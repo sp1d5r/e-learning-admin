@@ -104,6 +104,34 @@ export async function getLessonFromID(lesson_id) {
     return { id: lesson_id, ...lessonItems.data() };
 }
 
+export function uploadLesson(course_id, lesson_title, url, difficulty, time, pages, successCallback, failedCallback){
+    const pagesRef = Promise.all(pages.map((page) => {return addDoc(collection(firestore, "pages"), {page})})).then((values) => {
+        console.log("Successfully page");
+        console.log(values)
+        addDoc(collection(firestore, "lessons"), {
+            title: lesson_title,
+            thumbnail: url,
+            time: time,
+            pages: values.map((v) => {return "pages/" + v.id}),
+            difficulty: difficulty
+        }).then((snapshot) => {
+            // Now we want to get the course value and update it to include the new lesson.
+            console.log("Uploaded Lessons, now adding to course")
+            getCourse(course_id).then((res) => {
+                const _lessons = res.lessons;
+                _lessons.push({id: snapshot.id, title: lesson_title});
+                editCourse(course_id, res.courseName, res.thumbnail, res.difficulty, _lessons,
+                    successCallback,
+                    failedCallback)
+            })
+        }).catch((error) => {
+            failedCallback("Failed to add lesson" + error.toString())
+        })
+    }).catch((results) => {
+        failedCallback("Failed to add pages" + results.toString())
+    });
+
+}
 
 /* Deception Detection */
 export async function getCountOfMinigames(){

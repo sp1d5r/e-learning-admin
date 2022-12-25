@@ -1,8 +1,13 @@
 import React, {createRef, useState} from 'react';
-import {Button, Form} from "react-bootstrap";
+import {Alert, Button, Form} from "react-bootstrap";
 import Page from "./page/page";
+import {uploadFile, uploadLesson} from "../../cloud-infrastructure/firebase";
+import {useSearchParams} from "react-router-dom";
 
 function NewAddLesson() {
+    const search_params = useSearchParams()[0];
+    const course_id = search_params.get("course_id");
+
     /* Markdown File Handle */
     const markdownFile = createRef();
     const [content, setContent] = useState("#### Upload to see lesson preview");
@@ -10,12 +15,14 @@ function NewAddLesson() {
     /* Image File Handle */
     const imageFile = createRef();
     const [thumbnail, setThumbnail] = useState()
+    const [url, setURL] = useState();
 
     /* Lesson Data */
     const [title, setTitle] = useState("");
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
     const [errors, setErrors] = useState([]);
+    const [success, setSuccess] = useState("");
 
     /* Lesson Content */
     const [pages, setPages] = useState([{}]);
@@ -34,9 +41,20 @@ function NewAddLesson() {
         }
     };
 
+    const successful_image_upload = (url) => {
+        setURL(url);
+    }
+
+    const failed_image_upload = (errors) => {
+        setErrors([errors]);
+        setRefresh(!refresh);
+    }
+
     const upload_image = (image) => {
+        console.log(image)
         const objectUrl = URL.createObjectURL(image[0])
         setThumbnail(objectUrl)
+        uploadFile(image[0], "lesson-images/", successful_image_upload, failed_image_upload);
     }
 
     const addPage = () => {
@@ -50,9 +68,48 @@ function NewAddLesson() {
         setRefresh(!refresh);
     }
 
+    const success_lesson_upload = (ref) => {
+        setSuccess(ref);
+        window.scrollTo(0,0);
+    }
+
+    const failed_lesson_upload = (error) => {
+        setErrors([error]);
+    }
+
+    const upload_lessons = () => {
+        uploadLesson(course_id, title, url, difficulty, time, pages, success_lesson_upload, failed_lesson_upload);
+    }
+
     return (
         <>
             <Form className={"editing-course-div"}>
+                {
+                    success ?
+                        <Alert variant={"primary"}>
+                            Lesson Upload Complete <a>{success}</a>
+                        </Alert> :
+                        <></>
+                }
+
+                {
+                    url ?
+                        <Alert variant={"primary"}>
+                            Image uploaded Successfully! You can upload this course now: <a>{url}</a>
+                        </Alert> :
+                        <></>
+                }
+
+                {
+                    errors.length > 0 && <Alert variant={"danger"}>
+                        <b>There are a few errors on your forum</b>
+                        <ul>
+                            {errors.length > 0 && errors.map((error) => {
+                                return <li>{error}</li>
+                            })}
+                        </ul>
+                    </Alert>
+                }
                 <div className="divider"><p className="divider-text">new lesson</p>
                     <div></div>
                 </div>
@@ -125,8 +182,14 @@ function NewAddLesson() {
 
 
                 <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {console.log(pages)}}>
+                    <Button variant={"danger"} onClick={() => {console.log(pages)}}>
                         Check Pages Data (Console)
+                    </Button>
+                </Form.Group>
+
+                <Form.Group className={"lesson-upload-div"}>
+                    <Button variant={"success"} onClick={() => {upload_lessons()}}>
+                        Upload Lessons
                     </Button>
                 </Form.Group>
             </Form>
