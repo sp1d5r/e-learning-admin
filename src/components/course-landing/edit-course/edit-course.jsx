@@ -75,7 +75,7 @@ function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, c
 
     const submit = () => {
         if (checkFields()) {
-            editCourse(id, courseName, courseColor, thumbnail, difficulty, newLessons, successful_course_upload, failed_course_upload)
+            editCourse(id, courseName, courseColor, thumbnail, time, difficulty, newLessons, successful_course_upload, failed_course_upload)
             // uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 

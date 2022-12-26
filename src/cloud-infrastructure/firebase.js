@@ -69,11 +69,12 @@ export function uploadCourse(courseName, courseColor, thumbnail, time, difficult
     });
 }
 
-export function editCourse(id, courseName, courseColor, thumbnail, difficulty, lessons, successCallback, failedCallback) {
+export function editCourse(id, courseName, courseColor, thumbnail, time, difficulty, lessons, successCallback, failedCallback) {
     const data = {
         courseName: courseName,
         color: courseColor,
         thumbnail: thumbnail,
+        time: time,
         difficulty: difficulty,
         lessons: lessons.map((lesson) => {
             return doc(firestore, "lessons/" + lesson.id)
