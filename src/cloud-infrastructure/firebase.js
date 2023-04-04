@@ -84,6 +84,8 @@ export function editCourse(id, courseName, courseColor, thumbnail, time, difficu
         })
     };
 
+    console.log("data", data)
+
     setDoc(doc(firestore, "courses", id), data).then((_) => {
             console.log("Successful Update");
             successCallback("Successful Update");
@@ -121,9 +123,13 @@ export function uploadLesson(course_id, lesson_title, url, difficulty, time, pag
             // Now we want to get the course value and update it to include the new lesson.
             console.log("Uploaded Lessons, now adding to course")
             getCourse(course_id).then((res) => {
-                const _lessons = res.lessons;
+                const _lessons = [];
+                for (let i=0; i<res.lessons.length; i++){
+                    _lessons.push({id: res.lessons[i].id, title: res.lessonNames[i]})
+                }
+                console.log("",_lessons)
                 _lessons.push({id: snapshot.id, title: lesson_title});
-                editCourse(course_id, res.courseName, res.thumbnail, res.difficulty, _lessons,
+                editCourse(course_id, res.courseName, res.color, res.thumbnail, res.time, res.difficulty, _lessons,
                     successCallback,
                     failedCallback)
             })

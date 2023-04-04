@@ -1,11 +1,19 @@
 import React, {useEffect, useState} from "react";
 import {Button, Form} from "react-bootstrap";
 import "./page.css";
+import TextPage from "./pages/text-page";
+import QuestionPage from "./pages/question-page";
+import SelectionImagePage from "./pages/selection-image-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
     const [pageContent, setPageContent] = useState({data: ""})
     const [localRefersh, setLocalRefresh] = useState(false);
+    const options = ['text', 'question', 'Three', 'Four', 'Five'];
+    const onOptionChangeHandler = (event) => {
+        setPageType("question");
+        switchPageType();
+    }
 
     useEffect(() => {
         if (Object.keys(page).length !== 0) {
@@ -16,6 +24,10 @@ function Page({index, page, pages, setPages, updateRefresh}) {
 
     const addTextPageContent = (data) => {
         setPageContent({data: data});
+    }
+
+    const refreshContent = () => {
+        setLocalRefresh(!localRefersh);
     }
 
     // element = question, data = "Given XYZ what's the best option"
@@ -36,7 +48,7 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 answer: 0,
                 explanation: ""
             })
-        } else {
+        } else if (pageType === "") {
             setPageType("text")
             setPageContent({data: ""})
         }
@@ -48,141 +60,108 @@ function Page({index, page, pages, setPages, updateRefresh}) {
             type: pageType,
             ...pageContent
         }
+        console.log(_pages)
         setPages(_pages);
         updateRefresh();
     }
 
-    const setQuestionOptions = (numberOfOptions) => {
-        const _options = [];
-        for (let i=0; i<numberOfOptions; i++) {
-            _options.push("");
-        }
-        addElementPageContent("questions", _options);
-        setLocalRefresh(!localRefersh);
-    }
-
-    const updateQuestionOption = (option, index) => {
-        const _options = pageContent.questions;
-        _options[index] = option;
-        addElementPageContent("questions", _options);
-        setLocalRefresh(!localRefersh);
-    }
-
-    const questionOptionsTag = () => {
-        return pageContent.questions.map((question, index) => {
-            return <>
-                <Form.Label className={"text-muted"}>Option {index + 1}:</Form.Label>
-                <Form.Control type="text" placeholder={question} onChange={
-                    (e) => {
-                        updateQuestionOption(e.target.value, index)
-                    }
-                }/>
-            </>
+    const PageSwitcher = () => {
+        return <span>
+<Form.Select aria-label="Default select example" onChange={(event) => {
+    if (event.target.value === "text"){
+        setPageContent({data: ""})
+    } else if (event.target.value === "question"){
+        setPageContent({
+            question: "",
+            questions: [],
+            answer: 0,
+            explanation: ""
         })
+    } else if (event.target.value === "selection_image") {
+        setPageContent({
+            question: "",
+            questions: [],
+            answer: 0,
+        })
+    } else if (event.target.value === "build_sentence") {
+        setPageContent({data: ""})
+    } else if (event.target.value === "single_word") {
+        setPageContent({
+            sentence: "Objections to the sale should be ",
+            word: "encouraged",
+        })
+    } else if (event.target.value === "selection_text") {
+        setPageContent({
+            question: "How should you address objections?",
+            questions: ["Asking Questions", "Directly", "Indirectly", "Creatively"],
+            answer: 1,
+        })
+    } else if (event.target.value === "match_cards") {
+        setPageContent({
+            mapping: {
+                "Not all exceptions are": "valid",
+                "Objections to the sale should be": "encouraged",
+                "Objections to a sale are ": "good",
+                "Discover exceptions by": "asking questions",
+            },
+        })
+    } else if (event.target.value === "flip_and_select") {
+        setPageContent({
+            mapping: {
+                "Not all exceptions are": "valid",
+                "Objections to the sale should be": "encouraged",
+                "Objections to a sale are ": "good",
+                "Discover exceptions by": "asking questions",
+            },
+        })
+    }
+
+    setPageType(event.target.value);
+}}>
+                    <option>Open this select menu</option>
+                    <option value={"text"}>Text</option>
+                    <option value={"question"}>Question</option>
+                    <option value={"selection_image"}>Image Select</option>
+                    <option value={"build_sentence"}>Build a Sentence</option>
+                    <option value={"single_word"}>Fill in Blank</option>
+                    <option value={"selection_text"}>Sentence Select</option>
+                    <option value={"match_cards"}>Card Matching</option>
+                    <option value={"flip_and_select"}>Blind Card Matching</option>
+                </Form.Select>
+        </span>
     }
 
 
     if (pageType === "text"){
-        return (<>
-            <Form style={{
-                margin: "2%", padding: "5%", width: "80%", border: "1px solid black",
-                borderRadius: 5
-            }}>
-                <p>Select a Page Type</p>
-                <span>
-                    <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        label={pageType}
-                        onChange={(e) => {switchPageType()}}
-                    />
-                </span>
-                <>
-                    <Form.Label>Page Text</Form.Label>
-                    <Form.Control type="text" placeholder={pageContent.data} onChange={
-                        (e) => {
-                            if (e.target.value !==""){
-                                addTextPageContent(e.target.value)
-                            }
-                        }
-                    }/>
-                </>
-
-                <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
-                        Add Page
-                    </Button>
-                </Form.Group>
-            </Form>
-        </>)
-    } else {
-        return (<>
-            <Form style={{
-                margin: "2%", padding: "5%", width: "80%", border: "1px solid black",
-                borderRadius: 5
-            }}>
-                <p>Select a Page Type</p>
-                <span>
-                    <Form.Check
-                        type="switch"
-                        id="custom-switch"
-                        label={pageType}
-                        onChange={(e) => {switchPageType()}}
-                    />
-                </span>
-                <div className="divider-div-m"></div>
-                <>
-                    <Form.Label>Page Question</Form.Label>
-                    <Form.Control type="text" placeholder={pageContent.question} onChange={
-                        (e) => {
-                            if (e.target.value !==""){
-                                addElementPageContent("question", e.target.value)
-                            }
-                        }
-                    }/>
-                    <div className="divider-div-m"></div>
-
-                    <Form.Label>Number of Options</Form.Label>
-                    <Form.Control type="number" placeholder={0} onChange={
-                        (e) => {
-                            setQuestionOptions(e.target.value)
-                        }
-                    }/>
-                    <div className="divider-div-m"></div>
-
-                    <Form.Label>Options</Form.Label>
-                    <br/>
-                    {questionOptionsTag()}
-                    <br/>
-                    <div className="divider-div-m"></div>
-
-                    <Form.Label>Correct Option</Form.Label>
-                    <Form.Control type="number" placeholder={pageContent.answer} onChange={
-                        (e) => {
-                            if (e.target.value)
-                                addElementPageContent("answer",e.target.value)
-                        }
-                    }/>
-                    <Form.Text id="passwordHelpBlock" muted>
-                        Options aren't zero indexed so select number corresponding to correct option
-                    </Form.Text>
-                    <br/>
-                    <Form.Label>Explanation</Form.Label>
-                    <Form.Control type="text" placeholder={pageContent.explanation} onChange={
-                        (e) => {
-                            if (e.target.value)
-                                addElementPageContent("explanation",e.target.value)
-                        }
-                    }/>
-                </>
-
-                <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
-                        Add Page
-                    </Button>
-                </Form.Group>
-            </Form>
-        </>)
+        return (<TextPage setPageContent={setPageContent} pageContent={pageContent}  uploadPageContent={uploadPageContent}>
+            <div>
+                Switch Page
+                {PageSwitcher()}
+            </div>
+        </TextPage>)
+    } else if (pageType === "question") {
+        return (
+            <QuestionPage
+                setPageContent={setPageContent}
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                refreshContent={refreshContent}
+            >
+                <div>
+                    Switch Page
+                    {PageSwitcher()}
+                </div>
+            </QuestionPage>
+        )
+    } else if (pageType === "selection_image") {
+        return (
+            <SelectionImagePage
+                setPageContent={setPageContent}
+                uploadPageContent={uploadPageContent}
+            >
+                {PageSwitcher()}
+            </SelectionImagePage>
+        )
     }
 }
 

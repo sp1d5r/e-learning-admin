@@ -3,7 +3,6 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import NavigationBar from "./components/navbar/navbar";
 import CourseLanding from "./components/course-landing/course-landing";
 import AddCourse from "./components/add-course/add-course";
-import AddLesson from "./components/add-lessson/add-lesson";
 import DeceptionDetection from "./components/deception-detection/deception-detection";
 import Landing from "./components/landing/landing";
 import Login from "./components/login/login";

@@ -182,7 +182,7 @@ function NewAddLesson() {
 
 
                 <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"danger"} onClick={() => {console.log(pages)}}>
+                    <Button variant={"danger"} onClick={() => {console.log(JSON.stringify(pages))}}>
                         Check Pages Data (Console)
                     </Button>
                 </Form.Group>
