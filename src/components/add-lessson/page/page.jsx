@@ -7,6 +7,7 @@ import SelectionImagePage from "./pages/selection-image-page";
 import BuildASentencePage from "./pages/build-a-sentence-page";
 import SingleWordPage from "./pages/single-word-page";
 import SelectionTextPage from "./pages/selection-text-page";
+import MatchCardsPage from "./pages/match-cards-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -195,6 +196,15 @@ function Page({index, page, pages, setPages, updateRefresh}) {
             >
                 {PageSwitcher()}
             </SelectionTextPage>
+        )
+    } else if (pageType === "match_cards"){
+        return (
+            <MatchCardsPage
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                setPageContent={setPageContent}>
+                {PageSwitcher()}
+            </MatchCardsPage>
         )
     }
 }
