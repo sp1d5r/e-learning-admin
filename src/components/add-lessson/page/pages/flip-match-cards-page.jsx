@@ -1,7 +1,7 @@
 import React from "react";
 import {Button, Form} from "react-bootstrap";
 
-function MatchCardsPage({pageContent, setPageContent, uploadPageContent, children}) {
+function FlipMatchCardsPage({pageContent, setPageContent, uploadPageContent, children}) {
 
     const addToMapping = (isKey, value, pos) => {
         let _pageContent = {... pageContent};
@@ -107,4 +107,4 @@ function MatchCardsPage({pageContent, setPageContent, uploadPageContent, childre
     )
 }
 
-export default MatchCardsPage;
+export default FlipMatchCardsPage;

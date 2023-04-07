@@ -8,6 +8,7 @@ import BuildASentencePage from "./pages/build-a-sentence-page";
 import SingleWordPage from "./pages/single-word-page";
 import SelectionTextPage from "./pages/selection-text-page";
 import MatchCardsPage from "./pages/match-cards-page";
+import FlipMatchCardsPage from "./pages/flip-match-cards-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -205,6 +206,15 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 setPageContent={setPageContent}>
                 {PageSwitcher()}
             </MatchCardsPage>
+        )
+    } else if (pageType === "flip_and_select"){
+        return (
+            <FlipMatchCardsPage
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                setPageContent={setPageContent}>
+                {PageSwitcher()}
+            </FlipMatchCardsPage>
         )
     }
 }
