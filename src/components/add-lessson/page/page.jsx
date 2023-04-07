@@ -5,6 +5,7 @@ import TextPage from "./pages/text-page";
 import QuestionPage from "./pages/question-page";
 import SelectionImagePage from "./pages/selection-image-page";
 import BuildASentencePage from "./pages/build-a-sentence-page";
+import SingleWordPage from "./pages/single-word-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -171,6 +172,16 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 >
                 {PageSwitcher()}
             </BuildASentencePage>
+        )
+    } else if (pageType === "single_word") {
+        return (
+            <SingleWordPage
+                pageContent={pageContent}
+                setPageContent={setPageContent}
+                uploadPageContent={uploadPageContent}
+                >
+                {PageSwitcher()}
+            </SingleWordPage>
         )
     }
 }
