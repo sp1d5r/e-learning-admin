@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 
 function QuestionPage({ pageContent, uploadPageContent, setPageContent, refreshContent, children}) {
+    const [uploaded, setUploaded] = useState(false);
 
     const addElementPageContent = (element, data) => {
+        setUploaded(false);
         const _pageContent = {... pageContent};
         _pageContent[element] = data;
         setPageContent(_pageContent);
@@ -12,6 +14,7 @@ function QuestionPage({ pageContent, uploadPageContent, setPageContent, refreshC
     }
 
     const updateQuestionOption = (option, index) => {
+        setUploaded(false);
         const _options = pageContent.questions;
         _options[index] = option;
         addElementPageContent("questions", _options);
@@ -19,6 +22,7 @@ function QuestionPage({ pageContent, uploadPageContent, setPageContent, refreshC
     }
 
     const setQuestionOptions = (numberOfOptions) => {
+        setUploaded(false);
         const _options = [];
         for (let i=0; i<numberOfOptions; i++) {
             _options.push("");
@@ -95,8 +99,18 @@ function QuestionPage({ pageContent, uploadPageContent, setPageContent, refreshC
                 }/>
             </>
 
+            <div className={"divider-div-m"}/>
+            {JSON.stringify(pageContent)}
+            <div className={"divider-div-m"}/>
+            {
+                uploaded ?
+                    <div style={{borderRadius: 5, padding: 5, background: "#cbffb6", margin: 10}}> Course Uploaded </div> :
+                    <div style={{borderRadius: 5, padding: 5, background: "#ffb6b6", margin: 10}}> Course Not Uploaded Yet</div>
+            }
+
+
             <Form.Group className={"lesson-upload-div"}>
-                <Button variant={"success"} onClick={() => {uploadPageContent()}}>
+                <Button variant={"success"} onClick={() => {uploadPageContent(); setUploaded(true);}}>
                     Add Page
                 </Button>
             </Form.Group>

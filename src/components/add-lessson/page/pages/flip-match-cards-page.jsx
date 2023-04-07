@@ -1,9 +1,11 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
 
 function FlipMatchCardsPage({pageContent, setPageContent, uploadPageContent, children}) {
+    const [uploaded, setUploaded] = useState(false);
 
     const addToMapping = (isKey, value, pos) => {
+        setUploaded(false);
         let _pageContent = {... pageContent};
         const keys = Object.keys(_pageContent["mapping"]);
         const values = Object.values(_pageContent["mapping"]);
@@ -93,11 +95,16 @@ function FlipMatchCardsPage({pageContent, setPageContent, uploadPageContent, chi
 
                     }
                 }/>
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
                 {JSON.stringify(pageContent)}
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
+                {
+                    uploaded ?
+                        <div style={{borderRadius: 5, padding: 5, background: "#cbffb6", margin: 10}}> Course Uploaded </div> :
+                        <div style={{borderRadius: 5, padding: 5, background: "#ffb6b6", margin: 10}}> Course Not Uploaded Yet</div>
+                }
                 <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
+                    <Button variant={"success"} onClick={() => {uploadPageContent(); setUploaded(true)}}>
                         Add Page
                     </Button>
                 </Form.Group>

@@ -1,15 +1,18 @@
-import React from "react";
+import React, {useState} from "react";
 import {Button, Form} from "react-bootstrap";
-import page from "../page";
 
 function SelectionTextPage({pageContent, setPageContent, uploadPageContent, children}) {
+    const [uploaded, setUploaded] = useState(false);
+
     const addContentQuestion = (question) => {
+        setUploaded(false);
         const _pageContent = {...pageContent};
         _pageContent["question"] = question;
         setPageContent(_pageContent);
     }
 
     const addContentOptions = (options) => {
+        setUploaded(false);
         const _options = options.split(",");
         const _pageContent = {...pageContent};
         _pageContent["questions"] = _options;
@@ -17,6 +20,7 @@ function SelectionTextPage({pageContent, setPageContent, uploadPageContent, chil
     }
 
     const addContentAnswer = (answer) => {
+        setUploaded(false);
         const _pageContent = {...pageContent};
         _pageContent["answer"] = answer;
         setPageContent(_pageContent);
@@ -58,12 +62,16 @@ function SelectionTextPage({pageContent, setPageContent, uploadPageContent, chil
                     Options aren't zero indexed so select number corresponding to correct option
                 </Form.Text>
 
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
                 {JSON.stringify(pageContent)}
-                <div className="divider-div-m"></div>
-
+                <div className={"divider-div-m"}/>
+                {
+                    uploaded ?
+                        <div style={{borderRadius: 5, padding: 5, background: "#cbffb6", margin: 10}}> Course Uploaded </div> :
+                        <div style={{borderRadius: 5, padding: 5, background: "#ffb6b6", margin: 10}}> Course Not Uploaded Yet</div>
+                }
                 <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
+                    <Button variant={"success"} onClick={() => {uploadPageContent(); setUploaded(true);}}>
                         Add Page
                     </Button>
                 </Form.Group>

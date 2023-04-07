@@ -3,6 +3,8 @@ import {Alert, Button, Form} from "react-bootstrap";
 import {uploadFile} from "../../../../cloud-infrastructure/firebase";
 
 function SelectionImagePage({pageContent, uploadPageContent, setPageContent, children}) {
+    const [uploaded, setUploaded] = useState(false);
+
     /* Image File Handle */
     const imageFile1 = createRef();
     const imageFile2 = createRef();
@@ -198,15 +200,20 @@ function SelectionImagePage({pageContent, uploadPageContent, setPageContent, chi
                     <div className="divider-div-m"></div>
 
                 </>
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
                 {JSON.stringify(pageContent)}
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
+                {
+                    uploaded ?
+                        <div style={{borderRadius: 5, padding: 5, background: "#cbffb6", margin: 10}}> Course Uploaded </div> :
+                        <div style={{borderRadius: 5, padding: 5, background: "#ffb6b6", margin: 10}}> Course Not Uploaded Yet</div>
+                }
 
                 <Form.Group className={"lesson-upload-div"}>
                     <Button variant={"primary"} onClick={() => {coalesceContent()}}>
                         Coalesce Content
                     </Button>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
+                    <Button variant={"success"} onClick={() => {uploadPageContent(); setUploaded(true)}}>
                         Add Page
                     </Button>
                 </Form.Group>

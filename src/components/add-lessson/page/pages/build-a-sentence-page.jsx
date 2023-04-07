@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Alert, Button, Form} from "react-bootstrap";
 
 
 function BuildASentencePage({pageContent, uploadPageContent, setPageContent, children}) {
+    const [uploaded, setUploaded] = useState(false);
+
     const updateContent = (val) => {
+        setUploaded(false);
         setPageContent({data: val})
     }
 
@@ -24,11 +27,16 @@ function BuildASentencePage({pageContent, uploadPageContent, setPageContent, chi
                         updateContent(e.target.value);
                     }
                 }/>
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
                 {JSON.stringify(pageContent)}
-                <div className="divider-div-m"></div>
+                <div className={"divider-div-m"}/>
+                {
+                    uploaded ?
+                        <div style={{borderRadius: 5, padding: 5, background: "#cbffb6", margin: 10}}> Course Uploaded </div> :
+                        <div style={{borderRadius: 5, padding: 5, background: "#ffb6b6", margin: 10}}> Course Not Uploaded Yet</div>
+                }
                 <Form.Group className={"lesson-upload-div"}>
-                    <Button variant={"success"} onClick={() => {uploadPageContent()}}>
+                    <Button variant={"success"} onClick={() => {uploadPageContent(); setUploaded(true)}}>
                         Add Page
                     </Button>
                 </Form.Group>
