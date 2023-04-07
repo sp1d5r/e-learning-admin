@@ -2,6 +2,9 @@ import React from "react";
 import {Button, Form} from "react-bootstrap";
 
 function TextPage({uploadPageContent, pageContent, setPageContent, children}) {
+    const updateContent = (val) => {
+        setPageContent({data: val})
+    }
 
     return (<>
         <Form style={{
@@ -17,7 +20,7 @@ function TextPage({uploadPageContent, pageContent, setPageContent, children}) {
                 <Form.Control type="text" placeholder={pageContent.data} onChange={
                     (e) => {
                         if (e.target.value !==""){
-                            setPageContent(e.target.value)
+                            updateContent(e.target.value)
                         }
                     }
                 }/>

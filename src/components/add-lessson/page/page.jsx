@@ -4,6 +4,7 @@ import "./page.css";
 import TextPage from "./pages/text-page";
 import QuestionPage from "./pages/question-page";
 import SelectionImagePage from "./pages/selection-image-page";
+import BuildASentencePage from "./pages/build-a-sentence-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -161,6 +162,15 @@ function Page({index, page, pages, setPages, updateRefresh}) {
             >
                 {PageSwitcher()}
             </SelectionImagePage>
+        )
+    } else if (pageType === "build_sentence") {
+        return (
+            <BuildASentencePage
+                setPageContent={setPageContent}
+                uploadPageContent={uploadPageContent}
+                >
+                {PageSwitcher()}
+            </BuildASentencePage>
         )
     }
 }
