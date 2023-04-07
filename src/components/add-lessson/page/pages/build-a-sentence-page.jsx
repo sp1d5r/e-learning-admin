@@ -2,7 +2,7 @@ import React from 'react';
 import {Alert, Button, Form} from "react-bootstrap";
 
 
-function BuildASentencePage({uploadPageContent, setPageContent, children}) {
+function BuildASentencePage({pageContent, uploadPageContent, setPageContent, children}) {
     const updateContent = (val) => {
         setPageContent({data: val})
     }
@@ -24,6 +24,8 @@ function BuildASentencePage({uploadPageContent, setPageContent, children}) {
                         updateContent(e.target.value);
                     }
                 }/>
+                <div className="divider-div-m"></div>
+                {JSON.stringify(pageContent)}
                 <div className="divider-div-m"></div>
                 <Form.Group className={"lesson-upload-div"}>
                     <Button variant={"success"} onClick={() => {uploadPageContent()}}>

@@ -2,7 +2,7 @@ import React, {createRef, useState} from "react";
 import {Alert, Button, Form} from "react-bootstrap";
 import {uploadFile} from "../../../../cloud-infrastructure/firebase";
 
-function SelectionImagePage({uploadPageContent, setPageContent, children}) {
+function SelectionImagePage({pageContent, uploadPageContent, setPageContent, children}) {
     /* Image File Handle */
     const imageFile1 = createRef();
     const imageFile2 = createRef();
@@ -198,6 +198,9 @@ function SelectionImagePage({uploadPageContent, setPageContent, children}) {
                     <div className="divider-div-m"></div>
 
                 </>
+                <div className="divider-div-m"></div>
+                {JSON.stringify(pageContent)}
+                <div className="divider-div-m"></div>
 
                 <Form.Group className={"lesson-upload-div"}>
                     <Button variant={"primary"} onClick={() => {coalesceContent()}}>

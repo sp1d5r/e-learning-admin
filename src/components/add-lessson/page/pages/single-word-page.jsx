@@ -41,6 +41,8 @@ function SingleWordPage({pageContent, setPageContent, uploadPageContent, childre
                     }
                 }/>
                 <div className="divider-div-m"></div>
+                {JSON.stringify(pageContent)}
+                <div className="divider-div-m"></div>
                 <Form.Group className={"lesson-upload-div"}>
                     <Button variant={"success"} onClick={() => {uploadPageContent()}}>
                         Add Page

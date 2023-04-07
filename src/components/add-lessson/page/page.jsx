@@ -6,6 +6,7 @@ import QuestionPage from "./pages/question-page";
 import SelectionImagePage from "./pages/selection-image-page";
 import BuildASentencePage from "./pages/build-a-sentence-page";
 import SingleWordPage from "./pages/single-word-page";
+import SelectionTextPage from "./pages/selection-text-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -158,6 +159,7 @@ function Page({index, page, pages, setPages, updateRefresh}) {
     } else if (pageType === "selection_image") {
         return (
             <SelectionImagePage
+                pageContent={pageContent}
                 setPageContent={setPageContent}
                 uploadPageContent={uploadPageContent}
             >
@@ -167,6 +169,7 @@ function Page({index, page, pages, setPages, updateRefresh}) {
     } else if (pageType === "build_sentence") {
         return (
             <BuildASentencePage
+                pageContent={pageContent}
                 setPageContent={setPageContent}
                 uploadPageContent={uploadPageContent}
                 >
@@ -182,6 +185,16 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 >
                 {PageSwitcher()}
             </SingleWordPage>
+        )
+    } else if (pageType === "selection_text") {
+        return (
+            <SelectionTextPage
+                pageContent={pageContent}
+                setPageContent={setPageContent}
+                uploadPageContent={uploadPageContent}
+            >
+                {PageSwitcher()}
+            </SelectionTextPage>
         )
     }
 }
