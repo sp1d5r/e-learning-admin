@@ -9,6 +9,7 @@ import SingleWordPage from "./pages/single-word-page";
 import SelectionTextPage from "./pages/selection-text-page";
 import MatchCardsPage from "./pages/match-cards-page";
 import FlipMatchCardsPage from "./pages/flip-match-cards-page";
+import CaseStudyPage from "./pages/case-study-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -119,6 +120,11 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 "Discover exceptions by": "asking questions",
             },
         })
+    } else if (event.target.value === "case_study") {
+        setPageContent({
+            title: "",
+            story: ""
+        })
     }
 
     setPageType(event.target.value);
@@ -215,6 +221,16 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                 setPageContent={setPageContent}>
                 {PageSwitcher()}
             </FlipMatchCardsPage>
+        )
+    } else if (pageType === "case_study") {
+        return (
+            <CaseStudyPage
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                setPageContent={setPageContent}
+            >
+                {PageSwitcher()}
+            </CaseStudyPage>
         )
     }
 }

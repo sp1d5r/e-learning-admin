@@ -25,6 +25,7 @@ function NewAddLesson() {
     const [success, setSuccess] = useState("");
 
     /* Lesson Content */
+    const [pagesString, setPagesString] = useState({});
     const [pages, setPages] = useState([{}]);
     const [currentPage, setCurrentPage] = useState({});
     const [refresh, setRefresh] = useState(false);
@@ -81,6 +82,10 @@ function NewAddLesson() {
         uploadLesson(course_id, title, url, difficulty, time, pages, success_lesson_upload, failed_lesson_upload);
     }
 
+    const upload_lessons_from_stringify = () => {
+        uploadLesson(course_id, title, url, difficulty, time, pagesString, success_lesson_upload, failed_lesson_upload);
+    }
+
     return (
         <>
             <Form className={"editing-course-div"}>
@@ -129,6 +134,14 @@ function NewAddLesson() {
                     <Form.Label>Upload Thumbnail</Form.Label>
                     <img style={{width: "30%"}} alt={""} src={thumbnail ? thumbnail : require("../../assets/add-course.png")} className={"course-image"}/>
                     <br/>
+                    <Form.Control type="text" placeholder={thumbnail} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setThumbnail(e.target.value);
+                                setURL(e.target.value);
+                            }
+                        }
+                    }/>
                     <Form.Group controlId="formFile" className="mb-3">
                         <input className="form-control" type={"file"} ref={imageFile} onChange={(e) => upload_image((e.target.files))}/>
                     </Form.Group>
@@ -158,6 +171,26 @@ function NewAddLesson() {
                 {/* Previewing the Lesson */}
                 <div className="divider"><p className="divider-text">Lesson Content</p>
                     <div></div>
+                </div>
+
+                <div>
+                    <Form.Label>Course Time </Form.Label>
+                    <div style={{display: "flex"}}>
+                        <Form.Control type="text" placeholder={"Upload lesson stringfied content here"}  onChange={(e) => {
+                            if (e.target.value !== null){
+                                setPagesString(JSON.parse(e.target.value))
+                            }
+                        }
+                        }/>
+                        <Button variant={"primary"} onClick={() => {console.log(pagesString)}}>
+                            Convert
+                        </Button>
+                    </div>
+                    <div className={"divider-div-m"}></div>
+                    <p>{JSON.stringify(pagesString)}</p>
+                    <Button variant={"primary"} onClick={() => {upload_lessons_from_stringify()}}>
+                        Upload Lesson
+                    </Button>
                 </div>
 
                 <div style={{display: "flex", flexDirection: "column", alignItems: "center"}}>

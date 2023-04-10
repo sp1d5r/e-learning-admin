@@ -64,5 +64,6 @@ export default function AuthProvider({ children }) {
         auth_user,
     };
 
+    console.log(current_user)
     return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
