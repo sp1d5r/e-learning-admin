@@ -10,6 +10,8 @@ import SelectionTextPage from "./pages/selection-text-page";
 import MatchCardsPage from "./pages/match-cards-page";
 import FlipMatchCardsPage from "./pages/flip-match-cards-page";
 import CaseStudyPage from "./pages/case-study-page";
+import OrderListPage from "./pages/order-list-page";
+import BinaryClassificationPage from "./pages/binary-classification-page";
 
 function Page({index, page, pages, setPages, updateRefresh}) {
     const [pageType, setPageType] = useState("text");
@@ -125,6 +127,19 @@ function Page({index, page, pages, setPages, updateRefresh}) {
             title: "",
             story: ""
         })
+    } else if (event.target.value === "order_list") {
+        setPageContent({
+            question: "",
+            correctOrder: []
+        })
+    } else if (event.target.value === "binary_classification") {
+        setPageContent({
+            "question": "",
+            "category_one": "",
+            "category_two": "",
+            "category_one_options": ["", ""],
+            "category_two_options": ["", ""]
+        })
     }
 
     setPageType(event.target.value);
@@ -138,6 +153,8 @@ function Page({index, page, pages, setPages, updateRefresh}) {
                     <option value={"selection_text"}>Sentence Select</option>
                     <option value={"match_cards"}>Card Matching</option>
                     <option value={"flip_and_select"}>Blind Card Matching</option>
+                    <option value={"order_list"}>Order Cards</option>
+                    <option value={"binary_classification"}>Binary Classification</option>
                 </Form.Select>
         </span>
     }
@@ -231,6 +248,26 @@ function Page({index, page, pages, setPages, updateRefresh}) {
             >
                 {PageSwitcher()}
             </CaseStudyPage>
+        )
+    } else if (pageType === "order_list") {
+        return (
+            <OrderListPage
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                setPageContent={setPageContent}
+            >
+                {PageSwitcher()}
+            </OrderListPage>
+        )
+    } else if (pageType === "binary_classification") {
+        return (
+            <BinaryClassificationPage
+                pageContent={pageContent}
+                uploadPageContent={uploadPageContent}
+                setPageContent={setPageContent}
+            >
+                {PageSwitcher()}
+            </BinaryClassificationPage>
         )
     }
 }
