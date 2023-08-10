@@ -109,7 +109,7 @@ export async function getLessonFromID(lesson_id) {
     return { id: lesson_id, ...lessonItems.data() };
 }
 
-export function uploadLesson(course_id, lesson_title, url, difficulty, time, pages, successCallback, failedCallback){
+export function uploadLesson(course_id, lesson_title, description, url, difficulty, time, pages, successCallback, failedCallback){
     const pagesRef = Promise.all(pages.map((page) => {return addDoc(collection(firestore, "pages"), {page})})).then((values) => {
         console.log("Successfully page");
         console.log(values)
@@ -118,7 +118,8 @@ export function uploadLesson(course_id, lesson_title, url, difficulty, time, pag
             thumbnail: url,
             time: time,
             pages: values.map((v) => {return "pages/" + v.id}),
-            difficulty: difficulty
+            difficulty: difficulty,
+            description: description
         }).then((snapshot) => {
             // Now we want to get the course value and update it to include the new lesson.
             console.log("Uploaded Lessons, now adding to course")

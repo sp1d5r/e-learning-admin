@@ -8,6 +8,7 @@ function AddCourse() {
     const fileInput = React.createRef();
 
     const [courseName, setCourseName] = useState("")
+    const [description, setDescription] = useState("");
     const [courseColor, setCourseColor] = useState("#000000");
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
@@ -61,6 +62,10 @@ function AddCourse() {
 
         if (url === "") {
             err.push("Thumbnail not uploaded successfully")
+        }
+
+        if (description === "") {
+            err.push("Description empty.")
         }
 
         if (!thumbnail) {

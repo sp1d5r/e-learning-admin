@@ -19,6 +19,7 @@ function NewAddLesson() {
 
     /* Lesson Data */
     const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
     const [errors, setErrors] = useState([]);
@@ -79,11 +80,11 @@ function NewAddLesson() {
     }
 
     const upload_lessons = () => {
-        uploadLesson(course_id, title, url, difficulty, time, pages, success_lesson_upload, failed_lesson_upload);
+        uploadLesson(course_id, title, description, url, difficulty, time, pages, success_lesson_upload, failed_lesson_upload);
     }
 
     const upload_lessons_from_stringify = () => {
-        uploadLesson(course_id, title, url, difficulty, time, pagesString, success_lesson_upload, failed_lesson_upload);
+        uploadLesson(course_id, title, description, url, difficulty, time, pagesString, success_lesson_upload, failed_lesson_upload);
     }
 
     return (
@@ -120,11 +121,20 @@ function NewAddLesson() {
                 </div>
 
                 <Form.Group className={"mb-3 editing-lesson-md"} style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
-                    <Form.Label>Course Title</Form.Label>
+                    <Form.Label>Lesson Title</Form.Label>
                     <Form.Control type="text" placeholder={title} onChange={
                         (e) => {
                             if (e.target.value !==""){
                                 setTitle(e.target.value)
+                            }
+                        }
+                    }/>
+
+                    <Form.Label>Lesson Description</Form.Label>
+                    <Form.Control type="text" placeholder={description} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setDescription(e.target.value)
                             }
                         }
                     }/>
@@ -148,7 +158,7 @@ function NewAddLesson() {
 
                     <div className={"divider-div"}/>
 
-                    <Form.Label>Course Difficulty</Form.Label>
+                    <Form.Label>Lesson Difficulty</Form.Label>
                     <Form.Select aria-label="Default select example" onChange={(e) => {
                         setDifficulty(e.target.value);
                     }}>
@@ -159,7 +169,7 @@ function NewAddLesson() {
                     </Form.Select>
 
                     <div className={"divider-div"}/>
-                    <Form.Label>Course Time </Form.Label>
+                    <Form.Label>Lesson Time </Form.Label>
                     <Form.Control type="number" placeholder={time}  onChange={(e) => {
                         if (e.target.value !== null){
                             setTime(e.target.value)
@@ -174,7 +184,7 @@ function NewAddLesson() {
                 </div>
 
                 <div>
-                    <Form.Label>Course Time </Form.Label>
+                    <Form.Label>Lesson Time </Form.Label>
                     <div style={{display: "flex"}}>
                         <Form.Control type="text" placeholder={"Upload lesson stringfied content here"}  onChange={(e) => {
                             if (e.target.value !== null){
