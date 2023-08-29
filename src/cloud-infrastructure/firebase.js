@@ -109,6 +109,121 @@ export async function getLessonFromID(lesson_id) {
     return { id: lesson_id, ...lessonItems.data() };
 }
 
+export function getPagefromRetrievedJSON(pageData, pageId) {
+    let data;
+    if (pageData.type === "text") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: pageData.data,
+        };
+    } else if (pageData.type === "question") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+                explanation: pageData.explanation,
+            },
+        };
+    } else if (pageData.type === "selection_image") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+            },
+        };
+    } else if (pageData.type === "build_sentence") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: pageData.data,
+        };
+    } else if (pageData.type === "single_word") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                sentence: pageData.sentence,
+                word: pageData.word,
+            },
+        };
+    } else if (pageData.type === "selection_text") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+            },
+        };
+    } else if (pageData.type === "selection_image") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            question: pageData.question,
+            questions: pageData.questions,
+            answer: parseInt(pageData.answer),
+        };
+    } else if (pageData.type === "match_cards") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                mapping: { ...pageData.mapping },
+            },
+        };
+    } else if (pageData.type === "flip_and_select") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                mapping: { ...pageData.mapping },
+            },
+        };
+    } else if (pageData.type === "case_study") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                story: pageData.story,
+                title: pageData.title,
+            },
+        };
+    } else if (pageData.type === "order_list") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                correct_order: pageData.correct_order,
+            },
+        };
+    } else if (pageData.type === "binary_classifier") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                category_one: Object.keys(pageData.mapping)[0],
+                category_two: Object.keys(pageData.mapping)[1],
+                category_one_options:
+                    pageData.mapping[Object.keys(pageData.mapping)[0]],
+                category_two_options:
+                    pageData.mapping[Object.keys(pageData.mapping)[1]],
+            },
+        };
+    }
+    return data;
+}
+
+
 export function uploadLesson(course_id, lesson_title, description, url, difficulty, time, pages, successCallback, failedCallback){
     const pagesRef = Promise.all(pages.map((page) => {return addDoc(collection(firestore, "pages"), {page})})).then((values) => {
         console.log("Successfully page");
@@ -197,7 +312,126 @@ export function uploadDeceptionDetection(correctOption, correctPrompt, source, u
     })
 }
 
+/* Pages */
+export async function getPageFromID(page_path) {
+    const pageId = page_path.split("/")[1];
+    const pageDoc = doc(firestore, "pages", pageId);
+    const snapshot = await getDoc(pageDoc);
+    const pageData = snapshot.data().page;
 
+    let data;
+    if (pageData.type === "text") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: pageData.data,
+        };
+    } else if (pageData.type === "question") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+                explanation: pageData.explanation,
+            },
+        };
+    } else if (pageData.type === "selection_image") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+            },
+        };
+    } else if (pageData.type === "build_sentence") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: pageData.data,
+        };
+    } else if (pageData.type === "single_word") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                sentence: pageData.sentence,
+                word: pageData.word,
+            },
+        };
+    } else if (pageData.type === "selection_text") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                questions: pageData.questions,
+                answer: parseInt(pageData.answer),
+            },
+        };
+    } else if (pageData.type === "selection_image") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            question: pageData.question,
+            questions: pageData.questions,
+            answer: parseInt(pageData.answer),
+        };
+    } else if (pageData.type === "match_cards") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                mapping: { ...pageData.mapping },
+            },
+        };
+    } else if (pageData.type === "flip_and_select") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                mapping: { ...pageData.mapping },
+            },
+        };
+    } else if (pageData.type === "case_study") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                story: pageData.story,
+                title: pageData.title,
+            },
+        };
+    } else if (pageData.type === "order_list") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                correct_order: pageData.correct_order,
+            },
+        };
+    } else if (pageData.type === "binary_classifier") {
+        data = {
+            id: pageId,
+            type: pageData.type,
+            content: {
+                question: pageData.question,
+                category_one: Object.keys(pageData.mapping)[0],
+                category_two: Object.keys(pageData.mapping)[1],
+                category_one_options:
+                    pageData.mapping[Object.keys(pageData.mapping)[0]],
+                category_two_options:
+                    pageData.mapping[Object.keys(pageData.mapping)[1]],
+            },
+        };
+    }
+
+    return data;
+}
 
 /* Upload Image to Firebase Storage */
 

@@ -3,6 +3,8 @@ import {Alert, Button, Form} from "react-bootstrap";
 import Page from "./page/page";
 import {uploadFile, uploadLesson} from "../../cloud-infrastructure/firebase";
 import {useSearchParams} from "react-router-dom";
+import LessonPage from "./lesson/lesson-page";
+import NewLessonPage from "./lesson/lesson-page";
 
 function NewAddLesson() {
     const search_params = useSearchParams()[0];
@@ -22,7 +24,7 @@ function NewAddLesson() {
     const [description, setDescription] = useState("");
     const [difficulty, setDifficulty] = useState(0);
     const [time, setTime] = useState(0);
-    const [errors, setErrors] = useState([]);
+    const [errors, setErrors] = useState([])
     const [success, setSuccess] = useState("");
 
     /* Lesson Content */
@@ -30,6 +32,9 @@ function NewAddLesson() {
     const [pages, setPages] = useState([{}]);
     const [currentPage, setCurrentPage] = useState({});
     const [refresh, setRefresh] = useState(false);
+
+    /* Preview Lessons */
+    const [preview, setPreview] = useState(false);
 
     const _get_difficulty_name = () => {
         if (difficulty === 0) {
@@ -90,6 +95,18 @@ function NewAddLesson() {
     return (
         <>
             <Form className={"editing-course-div"}>
+                {
+                    preview &&
+                    <div style={{position: 'absolute', top: 0, left: 0}}>
+                        {/*<NewLessonPage*/}
+                        {/*    lesson_title={title}*/}
+                        {/*    lesson_thumbnail={url}*/}
+                        {/*    lesson_description={description}*/}
+                        {/*    pages={pagesString}*/}
+                        {/*    />*/}
+                    </div>
+                }
+
                 {
                     success ?
                         <Alert variant={"primary"}>
@@ -233,6 +250,11 @@ function NewAddLesson() {
                 <Form.Group className={"lesson-upload-div"}>
                     <Button variant={"success"} onClick={() => {upload_lessons()}}>
                         Upload Lessons
+                    </Button>
+                </Form.Group>
+                <Form.Group className={"lesson-upload-div"}>
+                    <Button variant={"success"} onClick={() => {setPreview(true)}}>
+                        Preview Lesson
                     </Button>
                 </Form.Group>
             </Form>

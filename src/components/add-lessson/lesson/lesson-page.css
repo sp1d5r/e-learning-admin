@@ -1,0 +1,157 @@
+.lesson-breadcrumbs {
+  min-height: 5vh;
+  width: 90%;
+  padding: 2%;
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.lesson-landing-main {
+  outline: solid 3px #000;
+  width: 100%;
+  background-color: var(--white);
+  padding: 2%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap-reverse;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+.lesson-landing-body-markdown {
+  text-align: left;
+}
+
+.lesson-landing-body-markdown > p {
+  width: 100%;
+}
+
+.lesson-landing-body-markdown > p > img {
+  height: 250px;
+  width: 250px;
+  margin-left: calc(50% - 125px);
+}
+
+.lesson-landing-content-section {
+  /* This is the section i.e. courses*/
+  width: 100%;
+  margin: auto;
+  min-height: 90vh;
+  padding: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 20px;
+}
+
+.lesson-top {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+  padding: 5px;
+  border: 2px solid black;
+  border-radius: 5px;
+  background-color: var(--green);
+  z-index: 1;
+  animation: 0.5s ease-in fadeInLesson;
+}
+
+.lesson-metadata {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.lesson-user-data {
+  height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+  padding: 0;
+}
+
+.lesson-title,
+.lesson-title-mobile {
+  font-family: Lexend, serif;
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.lesson-title-mobile {
+  font-size: 0rem;
+}
+
+.lesson-button {
+  width: 100px;
+  border: 2px solid black;
+}
+
+/* Lesson Intro Pages */
+.lesson-intro-page {
+  width: 100%;
+  text-align: left;
+  padding: 20% 10%;
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: column;
+  animation: 1.5s ease-in fadeInLesson;
+}
+
+@keyframes fadeInLesson {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.lesson-intro-action {
+  font-weight: 600;
+  color: grey;
+  text-decoration: underline;
+}
+
+.lesson-intro-action:hover {
+  color: #428b3d;
+}
+
+.lesson-intro-page > img {
+  height: 300px;
+  width: 300px;
+}
+
+.lesson-intro-page > p {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin: 0;
+  letter-spacing: 0.05rem;
+}
+
+.lesson-intro-title {
+  font-family: Lexend, serif;
+  font-weight: 600;
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+@media screen and (max-width: 700px) {
+  .lesson-landing-content-section {
+    min-height: 100vh;
+  }
+
+  .lesson-title {
+    font-size: 0rem;
+  }
+
+  .lesson-title-mobile {
+    font-size: 0rem;
+  }
+}
