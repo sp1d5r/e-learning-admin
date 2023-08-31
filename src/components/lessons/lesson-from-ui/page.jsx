@@ -216,260 +216,238 @@ function Page({index, pages, setPages}) {
         </span>
     }
 
-  return <Form style={{
-      margin: "2%", padding: "5%", width: "80%", border: "1px solid #dedede",
-      borderRadius: 5, position: 'relative'
-  }}>
-      <div style={{position: "absolute", top: 10, left: 10, display: 'flex', gap: 2}}>
-          <Button
-              variant={"outline-danger"}
-              onClick={() => {deletePage()}}
-          >Delete</Button>
-          <Button
-              variant={"outline-primary"}
-              onClick={() => {shiftUp()}}
-          >Up</Button>
-          <Button
-              variant={"outline-success"}
-              onClick={() => {shiftDown()}}
-          >Down</Button>
-      </div>
-      <p>Select a Page Type</p>
-      <PageSwitcher />
+    return (
+        <Form style={{
+            margin: "2%", padding: "5%", width: "80%", border: "1px solid #dedede",
+            borderRadius: 5, position: 'relative'
+        }}>
+            <div style={{ position: "absolute", top: 10, left: 10, display: 'flex', gap: 2 }}>
+                <Button variant={"outline-danger"} onClick={() => { deletePage() }}>Delete</Button>
+                <Button variant={"outline-primary"} onClick={() => { shiftUp() }}>Up</Button>
+                <Button variant={"outline-success"} onClick={() => { shiftDown() }}>Down</Button>
+            </div>
+            <p>Select a Page Type</p>
+            <PageSwitcher />
 
-      {
-          /* Text Page */
-          pages[index]['type'] === "text" &&
-          <>
-              <Form.Label>Page Text</Form.Label>
-              <Form.Control type="text" placeholder={pages[index]["data"]} onChange={
-                  (e) => {
-                      if (e.target.value !== "") {
-                          updatePageDataAttribute("data", e.target.value)
-                      }
-                  }
-              }/>
-          </>
-      }
+            {
+                pages[index]['type'] === "text" &&
+                <>
+                    <Form.Label>Page Text</Form.Label>
+                    <Form.Control type="text" value={pages[index]["data"]} onChange={
+                        (e) => {
+                            if (e.target.value !== "") {
+                                updatePageDataAttribute("data", e.target.value)
+                            }
+                        }
+                    } />
+                </>
+            }
 
-      { /* Questions Page */
-          pages[index]['type'] === "question" &&
-          <>
-              <Form.Label>Page Question</Form.Label>
-              <Form.Control type="text" placeholder={pages[index]["question"]} onChange={
-                  (e) => {
-                      if (e.target.value !==""){
-                          updatePageDataAttribute("question", e.target.value)
-                      }
-                  }
-              }/>
-              <div className="divider-div-m"></div>
+            {
+                pages[index]['type'] === "question" &&
+                <>
+                    <Form.Label>Page Question</Form.Label>
+                    <Form.Control type="text" value={pages[index]["question"]} onChange={
+                        (e) => {
+                            if (e.target.value !== "") {
+                                updatePageDataAttribute("question", e.target.value)
+                            }
+                        }
+                    } />
+                    <div className="divider-div-m"></div>
+                    <Form.Label>Number of Options</Form.Label>
+                    <Form.Control type="number" value={pages[index].questions ? pages[index].questions.length : 0} onChange={
+                        (e) => {
+                            const _options = [];
+                            for (let i = 0; i < e.target.value; i++) {
+                                _options.push("");
+                            }
+                            updatePageDataAttribute("questions", _options);
+                        }
+                    } />
+                    <div className="divider-div-m"></div>
+                    <Form.Label>Options</Form.Label>
+                    <br />
+                    {
+                        pages[index].questions.map((question, qIndex) => {
+                            return (
+                                <>
+                                    <Form.Label className={"text-muted"}>Option {qIndex + 1}:</Form.Label>
+                                    <Form.Control type="text" value={question} onChange={
+                                        (e) => {
+                                            updateQuestionOption(e.target.value, qIndex)
+                                        }
+                                    } />
+                                </>
+                            );
+                        })
+                    }
+                    <br />
+                    <div className="divider-div-m"></div>
+                    <Form.Label>Correct Option</Form.Label>
+                    <Form.Control type="number" value={pages[index].answer} onChange={
+                        (e) => {
+                            if (e.target.value)
+                                updatePageDataAttribute("answer", e.target.value);
+                        }
+                    } />
+                    <Form.Text id="passwordHelpBlock" muted>
+                        Options aren't zero indexed so select number corresponding to correct option
+                    </Form.Text>
+                    <br />
+                    <Form.Label>Explanation</Form.Label>
+                    <Form.Control type="text" value={pages[index].explanation} onChange={
+                        (e) => {
+                            if (e.target.value)
+                                updatePageDataAttribute("explanation", e.target.value);
+                        }
+                    } />
+                </>
+            }
 
-              <Form.Label>Number of Options</Form.Label>
-              <Form.Control type="number" placeholder={0} onChange={
-                  (e) => {
-                      const _options = [];
-                      for (let i=0; i<e.target.value; i++) {
-                          _options.push("");
-                      }
-                      updatePageDataAttribute("questions", _options);
-                  }
-              }/>
-              <div className="divider-div-m"></div>
+            {
+                pages[index]['type'] === "selection_image" &&
+                <>
+                    <h5>piss off cunt i don't want you to use this</h5>
+                </>
+            }
 
-              <Form.Label>Options</Form.Label>
-              <br/>
+            {
+                pages[index]['type'] === "build_sentence" &&
+                <>
+                    <Form.Label>Write the sentence here</Form.Label>
+                    <Form.Control type="text" value={pages[index].data ? pages[index].data : "Objections to the sale should be ______."} onChange={
+                        (e) => {
+                            updatePageDataAttribute("data", e.target.value)
+                        }
+                    } />
+                </>
+            }
 
-              {
-                  /* Options */
-                  pages[index].questions.map((question, index) => {
-                      return <>
-                          <Form.Label className={"text-muted"}>Option {index + 1}:</Form.Label>
-                          <Form.Control type="text" placeholder={question} onChange={
-                              (e) => {
-                                  updateQuestionOption(e.target.value, index)
-                              }
-                          }/>
-                      </>
-                  })
-              }
-              <br/>
-              <div className="divider-div-m"></div>
+            {
+                pages[index].type === "selection_text" &&
+                <>
+                    <Form.Label>Write the question here</Form.Label>
+                    <Form.Control type="text" value={pages[index].question ? pages[index].question : "Objections to the sale should be"} onChange={
+                        (e) => {
+                            updatePageDataAttribute("question", e.target.value)
+                        }
+                    } />
+                    <div className="divider-div-m"></div>
+                    <Form.Label>Write the options here seperated with commas</Form.Label>
+                    <Form.Control type="text" value={pages[index].questions ? pages[index].questions.join(",") : "encouraged, advised, result, something"} onChange={
+                        (e) => {
+                            updatePageDataAttribute("questions", e.target.value.split(","));
+                        }
+                    } />
+                    <div className="divider-div-m"></div>
+                    <Form.Label>Correct Option</Form.Label>
+                    <Form.Control type="number" value={pages[index].answer} onChange={
+                        (e) => {
+                            if (e.target.value)
+                                updatePageDataAttribute("answer", parseInt(e.target.value));
+                        }
+                    } />
+                    <Form.Text id="passwordHelpBlock" muted>
+                        Options aren't zero indexed so select number corresponding to correct option
+                    </Form.Text>
+                </>
+            }
 
-              <Form.Label>Correct Option</Form.Label>
-              <Form.Control type="number" placeholder={pages[index].answer} onChange={
-                  (e) => {
-                      if (e.target.value)
-                          updatePageDataAttribute("answer", e.target.value);
-                  }
-              }/>
-              <Form.Text id="passwordHelpBlock" muted>
-                  Options aren't zero indexed so select number corresponding to correct option
-              </Form.Text>
-              <br/>
-              <Form.Label>Explanation</Form.Label>
-              <Form.Control type="text" placeholder={pages[index].explanation} onChange={
-                  (e) => {
-                      if (e.target.value)
-                          updatePageDataAttribute("explanation", e.target.value);
-                  }
-              }/>
-          </>
-      }
+            {
+                pages[index].type === "flip_and_select" &&
+                <>
+                    <Form.Label>Write pairs</Form.Label>
+                    {
+                        Object.keys(pages[index].mapping).length !== 0 && Object.keys(pages[index].mapping).map((elem, elemIndex) => {
+                            return (
+                                <div style={{ display: "flex" }}>
+                                    <Form.Control type="text" value={elem} onChange={
+                                        (e) => {
+                                            addToMapping(true, e.target.value, elemIndex)
+                                        }
+                                    } />
+                                    <Form.Control type="text" value={pages[index].mapping[elem]} onChange={
+                                        (e) => {
+                                            addToMapping(false, e.target.value, elemIndex)
+                                        }
+                                    } />
+                                </div>
+                            )
+                        })
+                    }
+                </>
+            }
 
-      {
-          /* Selection Image */
-          pages[index]['type'] === "selection_image" &&
-          <>
-            <h5>piss off cunt i don't want you to use this</h5>
-          </>
-      }
+            {
+                pages[index].type === "order_list" &&
+                <>
+                    <Form.Label>Write the ordering instructions.</Form.Label>
+                    <Form.Control type="text" value={pages[index].question} onChange={
+                        (e) => {
+                            updatePageDataAttribute("question", e.target.value)
+                        }
+                    } />
+                    <Form.Label>Write the words you need to order.</Form.Label>
+                    {pages[index].correct_order && pages[index].correct_order.map((t, i) => {
+                        return <Form.Control type="text" value={t} onChange={
+                            (e) => {
+                                addOrderedItem(e.target.value, i);
+                            }
+                        } />
+                    })}
+                </>
+            }
 
-      {
-          /* Selection Image */
-          pages[index]['type'] === "build_sentence" &&
-          <>
-              <Form.Label>Write the sentence here</Form.Label>
-              <Form.Control type="text" placeholder={pages[index].data ? pages[index].data : "Objections to the sale should be ______."} onChange={
-                  (e) => {
-                      updatePageDataAttribute("data", e.target.value)
-                  }
-              }/>
-          </>
-      }
-
-      {
-          /* Selection Text */
-          pages[index].type === "selection_text" &&
-          <>
-              <Form.Label>Write the question here</Form.Label>
-              <Form.Control type="text" placeholder={pages[index].question ? pages[index].question : "Objections to the sale should be"} onChange={
-                  (e) => {
-                      updatePageDataAttribute("question", e.target.value)
-                  }
-              }/>
-              <div className="divider-div-m"></div>
-              <Form.Label>Write the options here seperated with commas</Form.Label>
-              <Form.Control type="text" placeholder={pages[index].questions ? pages[index].questions :"encouraged, advised, result, something"} onChange={
-                  (e) => {
-                      updatePageDataAttribute("questions", e.target.value.split(","));
-                  }
-              }/>
-              <div className="divider-div-m"></div>
-              <Form.Label>Correct Option</Form.Label>
-              <Form.Control type="number" placeholder={pages[index].answer} onChange={
-                  (e) => {
-                      if (e.target.value)
-                          updatePageDataAttribute("answer", parseInt(e.target.value));
-                  }
-              }/>
-              <Form.Text id="passwordHelpBlock" muted>
-                  Options aren't zero indexed so select number corresponding to correct option
-              </Form.Text>
-          </>
-      }
-
-      {
-          /* Blind Card Matching */
-          pages[index].type === "flip_and_select" &&
-          <>
-              <Form.Label>Write pairs</Form.Label>
-              {
-                  // console.log(pages[index].mapping)
-                  Object.keys(pages[index].mapping).length !== 0 && Object.keys(pages[index].mapping).map((elem, elemIndex) => {
-                      console.log(elem, elemIndex)
-                      return (
-                          <div style={{display: "flex"}}>
-                              <Form.Control type="text" placeholder={elem} onChange={
-                                  (e) => {
-                                      addToMapping(true, e.target.value, elemIndex)
-                                  }
-                              }/>
-                              <Form.Control type="text" placeholder={pages[index].mapping[elem]} onChange={
-                                  (e) => {
-                                      addToMapping(false, e.target.value, elemIndex)
-                                  }
-                              }/>
-                          </div>
-                      )
-                  })
-              }
-          </>
-      }
-
-      {
-          /* Order List */
-          pages[index].type === "order_list" &&
-          <>
-              <Form.Label>Write the ordering instructions.</Form.Label>
-              <Form.Control type="text" placeholder={pages[index].question} onChange={
-                  (e) => {
-                      updatePageDataAttribute("question", e.target.value)
-                  }
-              }/>
-              <Form.Label>Write the words you need to order.</Form.Label>
-
-              {pages[index].correct_order && pages[index].correct_order.map((t, i) => {
-                  return <Form.Control type="text" placeholder={t} onChange={
-                      (e) => {
-                          addOrderedItem(e.target.value, i);
-                      }
-                  }/>
-              })}
-
-          </>
-      }
-
-      {
-          pages[index].type === "binary_classifier" &&
-          <>
-              <Form.Label>Mappings and their items</Form.Label>
-              <br/>
-              <Form.Label>First Class</Form.Label>
-              <Form.Control
-                  type="text"
-                  placeholder={Object.keys(pages[index].mapping)[0]}
-                  onChange={(e) => updateClassName(Object.keys(pages[index].mapping[0]), e.target.value)}
-              />
-              <br/>
-              {
-                  pages[index].mapping && pages[index].mapping[Object.keys(pages[index].mapping)[0]] &&
-                  pages[index].mapping[Object.keys(pages[index].mapping)[0]].map((t, i) => {
-                      return <Form.Control
-                          type="text"
-                          placeholder={t}
-                          onChange={(e) => updateClassItem(0, i, e.target.value)}
-                      />
-                  })
-              }
-              <br/>
-              <Button onClick={() => {addItem(Object.keys(pages[index].mapping)[0])}}>Add Item</Button>
-              <br/>
-              <Form.Label>Second Class</Form.Label>
-              <Form.Control
-                  type="text"
-                  placeholder={Object.keys(pages[index].mapping)[1]}
-                  onChange={(e) => updateClassName(Object.keys(pages[index].mapping)[1], e.target.value)}
-              />
-              <br/>
-              {
-                  pages[index].mapping && pages[index].mapping[Object.keys(pages[index].mapping)[1]] &&
-                  pages[index].mapping[Object.keys(pages[index].mapping)[1]].map((t, i) => {
-                      return <Form.Control
-                          type="text"
-                          placeholder={t}
-                          onChange={(e) => updateClassItem(1, i, e.target.value)}
-                      />
-                  })
-              }
-              <br/>
-              <Button onClick={() => {addItem(Object.keys(pages[index].mapping)[1])}}>Add Item</Button>
-              <br/>
-          </>
-      }
-
-
-  </Form>
+            {
+                pages[index].type === "binary_classifier" &&
+                <>
+                    <Form.Label>Mappings and their items</Form.Label>
+                    <br />
+                    <Form.Label>First Class</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={Object.keys(pages[index].mapping)[0]}
+                        onChange={(e) => updateClassName(Object.keys(pages[index].mapping)[0], e.target.value)}
+                    />
+                    <br />
+                    {
+                        pages[index].mapping && pages[index].mapping[Object.keys(pages[index].mapping)[0]] &&
+                        pages[index].mapping[Object.keys(pages[index].mapping)[0]].map((t, i) => {
+                            return <Form.Control
+                                type="text"
+                                value={t}
+                                onChange={(e) => updateClassItem(0, i, e.target.value)}
+                            />
+                        })
+                    }
+                    <br />
+                    <Button onClick={() => { addItem(Object.keys(pages[index].mapping)[0]) }}>Add Item</Button>
+                    <br />
+                    <Form.Label>Second Class</Form.Label>
+                    <Form.Control
+                        type="text"
+                        value={Object.keys(pages[index].mapping)[1]}
+                        onChange={(e) => updateClassName(Object.keys(pages[index].mapping)[1], e.target.value)}
+                    />
+                    <br />
+                    {
+                        pages[index].mapping && pages[index].mapping[Object.keys(pages[index].mapping)[1]] &&
+                        pages[index].mapping[Object.keys(pages[index].mapping)[1]].map((t, i) => {
+                            return <Form.Control
+                                type="text"
+                                value={t}
+                                onChange={(e) => updateClassItem(1, i, e.target.value)}
+                            />
+                        })
+                    }
+                    <br />
+                    <Button onClick={() => { addItem(Object.keys(pages[index].mapping)[1]) }}>Add Item</Button>
+                    <br />
+                </>
+            }
+        </Form>
+    );
 }
 
 

@@ -39,51 +39,75 @@ function LessonMetadataComponent(
         uploadFile(image[0], "lesson-images/", successful_image_upload, failed_image_upload);
     }
 
-    return <div>
-        <Form.Group
-            className={"mb-3 editing-lesson-md"}
-            style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
-            <Form.Label>Lesson Title</Form.Label>
-            <Form.Control type="text" name="title" placeholder={lessonMetadata.title} onChange={
-                onChange
-            }/>
+    return (
+        <div>
+            <Form.Group
+                className={"mb-3 editing-lesson-md"}
+                style={{display: "flex", justifyContent: "center", flexDirection: "column"}}>
 
-            <Form.Label>Lesson Description</Form.Label>
-            <Form.Control type="text" name="description" placeholder={lessonMetadata.description} onChange={
-                onChange
-            }/>
+                <Form.Label>Lesson Title</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="title"
+                    value={lessonMetadata.title}
+                    onChange={onChange}
+                />
 
-            <div className={"divider-div"}/>
+                <Form.Label>Lesson Description</Form.Label>
+                <Form.Control
+                    type="text"
+                    name="description"
+                    value={lessonMetadata.description}
+                    onChange={onChange}
+                />
 
-            <Form.Label>Upload Thumbnail</Form.Label>
-            <img style={{width: "30%"}} alt={""} src={lessonMetadata.thumbnail ? lessonMetadata.thumbnail : require("../../../assets/add-course.png")} className={"course-image"}/>
-            <br/>
-            <Form.Control type="text" name="thumbnail" placeholder={lessonMetadata.thumbnail} onChange={
-                onChange
-            }/>
-            <Form.Group controlId="formFile" className="mb-3">
-                <input className="form-control"
-                       type={"file"}
-                       ref={lessonMetadata.imageFile}
-                       onChange={(e) => upload_image((e.target.files))}/>
+                <div className={"divider-div"}/>
+
+                <Form.Label>Upload Thumbnail</Form.Label>
+                <img
+                    style={{width: "30%"}}
+                    alt={""}
+                    src={lessonMetadata.thumbnail ? lessonMetadata.thumbnail : require("../../../assets/add-course.png")}
+                    className={"course-image"}
+                />
+                <br/>
+                <Form.Control
+                    type="text"
+                    name="thumbnail"
+                    value={lessonMetadata.thumbnail}
+                    onChange={onChange}
+                />
+                <Form.Group controlId="formFile" className="mb-3">
+                    <input
+                        className="form-control"
+                        type={"file"}
+                        ref={lessonMetadata.imageFile}
+                        onChange={(e) => upload_image((e.target.files))}
+                    />
+                </Form.Group>
+
+                <div className={"divider-div"}/>
+
+                <Form.Label>Lesson Difficulty</Form.Label>
+                <Form.Select aria-label="Default select example" name="difficulty" onChange={onChange}>
+                    <option>Difficulty: {_get_difficulty_name()}</option>
+                    <option value="1">Easy</option>
+                    <option value="2">Medium</option>
+                    <option value="3">Hard</option>
+                </Form.Select>
+
+                <div className={"divider-div"}/>
+                <Form.Label>Lesson Time </Form.Label>
+                <Form.Control
+                    type="number"
+                    name="time"
+                    value={lessonMetadata.time}
+                    onChange={onChange}
+                />
             </Form.Group>
+        </div>
+    );
 
-            <div className={"divider-div"}/>
-
-            <Form.Label>Lesson Difficulty</Form.Label>
-            <Form.Select aria-label="Default select example" name="difficulty" onChange={onChange}>
-                <option>Difficulty: {_get_difficulty_name()}</option>
-                <option value="1">Easy</option>
-                <option value="2">Medium</option>
-                <option value="3">Hard</option>
-            </Form.Select>
-
-            <div className={"divider-div"}/>
-            <Form.Label>Lesson Time </Form.Label>
-            <Form.Control type="number" name="time" placeholder={lessonMetadata.time}  onChange={onChange
-            }/>
-        </Form.Group>
-    </div>
 }
 
 export default LessonMetadataComponent;

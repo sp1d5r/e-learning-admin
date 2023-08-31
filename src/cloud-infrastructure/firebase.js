@@ -6,6 +6,7 @@ import {
     getDocs,
     setDoc,
     addDoc,
+    updateDoc,
     getFirestore,
     getCountFromServer,
     query,
@@ -225,7 +226,9 @@ export function getPagefromRetrievedJSON(pageData, pageId) {
 
 
 export function uploadLesson(course_id, lesson_title, description, url, difficulty, time, pages, successCallback, failedCallback){
-    const pagesRef = Promise.all(pages.map((page) => {return addDoc(collection(firestore, "pages"), {page})})).then((values) => {
+    const pagesRef = Promise.all(pages.map((page) => {
+        console.log(page);
+        return addDoc(collection(firestore, "pages"), {page})})).then((values) => {
         console.log("Successfully page");
         console.log(values)
         addDoc(collection(firestore, "lessons"), {
@@ -257,6 +260,53 @@ export function uploadLesson(course_id, lesson_title, description, url, difficul
     });
 
 }
+
+export function editLesson(course_id, lesson_id, lesson_title, description, url, difficulty, time, pages, successCallback, failedCallback){
+    // Fetch the existing lesson.
+    const lessonRef = doc(firestore, "lessons", lesson_id);
+    getDoc(lessonRef).then((lessonSnapshot) => {
+        if (lessonSnapshot.exists()) {
+            const currentLessonData = lessonSnapshot.data();
+
+            // Update the lesson's pages.
+            Promise.all(pages.map((page, index) => {
+                if (currentLessonData.pages[index]) {
+                    // Update the existing page.
+                    const pageRef = doc(firestore, currentLessonData.pages[index]);
+                    return updateDoc(pageRef, { page });
+                } else {
+                    // Add a new page.
+                    return addDoc(collection(firestore, "pages"), { page });
+                }
+            })).then((values) => {
+                console.log("Updated pages");
+
+                // Update the lesson's details.
+                updateDoc(lessonRef, {
+                    title: lesson_title,
+                    thumbnail: url,
+                    time: time,
+                    pages: values.map((v, index) => currentLessonData.pages[index] ? currentLessonData.pages[index] : "pages/" + v.id),
+                    difficulty: difficulty,
+                    description: description
+                }).then(() => {
+                    successCallback();
+                }).catch((error) => {
+                    failedCallback("Failed to update lesson details: " + error.toString());
+                });
+
+            }).catch((error) => {
+                failedCallback("Failed to update pages: " + error.toString());
+            });
+
+        } else {
+            failedCallback("Lesson not found.");
+        }
+    }).catch((error) => {
+        failedCallback("Failed to fetch the lesson: " + error.toString());
+    });
+}
+
 
 /* Deception Detection */
 export async function getCountOfMinigames(){

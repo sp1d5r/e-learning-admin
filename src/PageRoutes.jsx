@@ -25,7 +25,7 @@ function PageRoutes() {
                             <>
                                 <Route path="/course/" element={<CourseLanding />} />
                                 <Route path={"/add-course"} element={<AddCourse />} />
-                                <Route path={"/add-lesson"} element={<NewAddLesson />} />
+                                <Route path={"/add-lesson"} element={<LessonPage />} />
                                 <Route path={"/lesson"} element={<EditLesson />} />
                                 <Route path={"/new-lesson"} element={<LessonPage />} />
                                 <Route path={"/add-deception-detection"} element={<AddDeceptionDetection />} />

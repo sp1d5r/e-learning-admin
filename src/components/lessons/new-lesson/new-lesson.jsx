@@ -7,9 +7,15 @@ import {Alert, Button} from "react-bootstrap";
 import LessonFromGpt from "../lesson-from-gpt/lesson-from-gpt";
 import LessonFromUi from "../lesson-from-ui/lesson-from-ui";
 import NewLessonPage from "../../add-lessson/lesson/lesson-page";
+import {convertPagesToCorrectFormat} from "../lesson-functions";
+import {uploadLesson} from "../../../cloud-infrastructure/firebase";
+import {useSearchParams} from "react-router-dom";
 
 
 function LessonPage({}){
+    const search_params = useSearchParams()[0];
+    const course_id = search_params.get("course_id");
+
     const [key, setKey] = useState('home');
 
     /* Lesson Metadata */
@@ -56,6 +62,21 @@ function LessonPage({}){
 
     const refreshPage = () => {
         setRefresh(!refresh);
+    }
+
+    const submitLesson = () => {
+        const reformattedPages = [... lessonPages.map((page, _) => {return page})]; // convertPagesToCorrectFormat
+        uploadLesson(
+            course_id,
+            lessonMetadata.title,
+            lessonMetadata.description,
+            lessonMetadata.thumbnail,
+            lessonMetadata.difficulty,
+            lessonMetadata.time,
+            reformattedPages,
+            () => {console.log("Uploaded Successfully")},
+            () => {setErrors(["Failed to upload lesson to firebase"])}
+        )
     }
 
     return <div className={"lesson-main"}>
@@ -123,11 +144,11 @@ function LessonPage({}){
                     lessonPages={lessonPages}
                 />
                 <div style={{padding: 50, display: 'flex', width: '100%', justifyContent: 'center'}}>
-                    <Button variant={"success"}>Submit Lesson</Button>
+                    <Button variant={"success"} onClick={() => {submitLesson()}} >Submit Lesson</Button>
                 </div>
             </Tab>
         </Tabs>
-    </div>
+    </div>;
 }
 
 export default LessonPage;
