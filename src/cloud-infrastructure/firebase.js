@@ -51,10 +51,11 @@ export async function getCourse(id) {
     return courseItems.data();
 }
 
-export function uploadCourse(courseName, courseColor, thumbnail, time, difficulty, successCallback, failedCallback){
+export function uploadCourse(courseName, description, courseColor, thumbnail, time, difficulty, successCallback, failedCallback){
     const docRef = addDoc(collection(firestore, "courses"), {
         courseName: courseName,
         color: courseColor,
+        description: description,
         thumbnail: thumbnail,
         time: time,
         difficulty: difficulty,
@@ -253,6 +254,7 @@ export function uploadLesson(course_id, lesson_title, description, url, difficul
                     failedCallback)
             })
         }).catch((error) => {
+            console.log(error)
             failedCallback("Failed to add lesson" + error.toString())
         })
     }).catch((results) => {

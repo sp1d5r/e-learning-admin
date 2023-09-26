@@ -78,7 +78,7 @@ function AddCourse() {
 
     const submit = () => {
         if (checkFields()) {
-            uploadCourse(courseName, courseColor, url, time, difficulty, successful_course_upload, failed_course_upload)
+            uploadCourse(courseName, description, courseColor, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 
         window.scrollTo(0,0);
@@ -124,6 +124,17 @@ function AddCourse() {
                         (e) => {
                             if (e.target.value !==""){
                                 setCourseName(e.target.value)
+                            }
+                        }
+                    }/>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Course Title</Form.Label>
+                    <Form.Control type="text" placeholder={description} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setDescription(e.target.value)
                             }
                         }
                     }/>

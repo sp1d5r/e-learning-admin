@@ -20,7 +20,7 @@ function Login() {
     };
 
     const successfulCallback = () => {
-        navigate("/pricing-page");
+        navigate("/");
     };
 
     const trySignIn = () => {

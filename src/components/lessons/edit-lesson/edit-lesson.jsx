@@ -185,7 +185,7 @@ function EditLessonPage({}){
             lessonMetadata.time,
             reformattedPages,
             () => {console.log("Uploaded Successfully")},
-            () => {setErrors(["Failed to upload lesson to firebase"])}
+            (e) => {setErrors([e])}
         )
     }
 

@@ -210,6 +210,7 @@ function Page({index, pages, setPages}) {
                     <option value={"selection_text"} selected={pages[index].type === "selection_text"}>Sentence Select</option>
                     <option value={"match_cards"} selected={pages[index].type === "match_cards"}>Card Matching</option>
                     <option value={"flip_and_select"} selected={pages[index].type === "flip_and_select"}>Blind Card Matching</option>
+                    <option value={"case_study"} selected={pages[index].type === "case_study"}>Case Study</option>
                     <option value={"order_list"} selected={pages[index].type === "order_list"}>Order Cards</option>
                     <option value={"binary_classification"} selected={pages[index].type === "binary_classifier"}>Binary Classification</option>
             </Form.Select>
@@ -396,6 +397,25 @@ function Page({index, pages, setPages}) {
                             }
                         } />
                     })}
+                </>
+            }
+
+            {
+                pages[index]['type'] === "case_study" &&
+                <>
+                    <Form.Label>Write the title here</Form.Label>
+                    <Form.Control type="text" value={pages[index].title ? pages[index].title : "Objections to the sale should be ______."} onChange={
+                        (e) => {
+                            updatePageDataAttribute("title", e.target.value)
+                        }
+                    } />
+
+                    <Form.Label>Write the description here</Form.Label>
+                    <Form.Control type="text" value={pages[index].story ? pages[index].story : "Objections to the sale should be ______."} onChange={
+                        (e) => {
+                            updatePageDataAttribute("story", e.target.value)
+                        }
+                    } />
                 </>
             }
 
