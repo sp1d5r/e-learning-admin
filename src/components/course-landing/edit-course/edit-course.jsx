@@ -4,18 +4,20 @@ import {useNavigate} from "react-router-dom";
 import {editCourse, uploadCourse, uploadFile} from "../../../cloud-infrastructure/firebase";
 import {Draggable} from "react-drag-reorder";
 
-function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, courseDifficutly, lessons}) {
+function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseDescription, courseTime, courseDifficutly, lessons, courseTags}) {
     const [thumbnail, setThumbnail] = useState(courseThumbnail)
     const fileInput = React.createRef();
 
     const [courseName, setCourseName] = useState(courseTitle);
     const [courseColor, setCourseColor] = useState(coursColor);
+    const [description, setDescription] = useState(courseDescription);
     const [difficulty, setDifficulty] = useState(courseDifficutly);
     const [time, setTime] = useState(courseTime);
     const [newLessons, newLessonsOrder] = useState(lessons.map((i) => {return i}));
     const [errors, setErrors] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [url, setURL] = useState(courseThumbnail);
+    const [tags, setTags] = useState([...courseTags]);
     const navigate = useNavigate();
 
     const _get_difficulty_name = () => {
@@ -68,6 +70,11 @@ function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, c
         if (!thumbnail) {
             err.push("Set Thumbnail")
         }
+
+        if (description === "") {
+            err.push("Description empty.")
+        }
+
         setErrors(err);
         setRefresh(!refresh);
         return err.length === 0;
@@ -75,7 +82,7 @@ function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, c
 
     const submit = () => {
         if (checkFields()) {
-            editCourse(id, courseName, courseColor, thumbnail, time, difficulty, newLessons, successful_course_upload, failed_course_upload)
+            editCourse(id, description, courseName, courseColor, thumbnail, time, difficulty, newLessons, tags, successful_course_upload, failed_course_upload)
             // uploadCourse(courseName, url, time, difficulty, successful_course_upload, failed_course_upload)
         }
 
@@ -153,6 +160,17 @@ function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, c
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
+                    <Form.Label>Course Description</Form.Label>
+                    <Form.Control type="text" placeholder={description} onChange={
+                        (e) => {
+                            if (e.target.value !==""){
+                                setDescription(e.target.value)
+                            }
+                        }
+                    }/>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicEmail">
                     <Form.Label>Course Color</Form.Label>
                     <Form.Control type="text" placeholder={courseColor} style={{backgroundColor: courseColor}} onChange={
                         (e) => {
@@ -203,6 +221,28 @@ function EditCourse({id, courseThumbnail, coursColor, courseTitle, courseTime, c
                             }
                         </Draggable>
                     </table>
+                </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+
+                    <Form.Label>Add Tags</Form.Label>
+                    <Form.Control type="string" placeholder={tags}  onChange={(e) => {
+                        if (e.target.value !== null){
+                            setTags([...e.target.value.split(",")]);
+                        }
+                    }
+                    }/>
+                    <Form.Text id="passwordHelpBlock" muted>
+                        Seperate tags with a ,
+                    </Form.Text>
+
+
+                    <div style={{display: "flex", gap: 10, justifyContent: "flex-start" , alignItems: "center"}}>
+                        {tags.map((elem, index) => {
+                            return <div style={{backgroundColor: "blue", color: "white", padding: 10, borderRadius: 5}}>{elem}</div>
+                        })}
+                    </div>
+
                 </Form.Group>
 
                 <Button variant="primary" onClick={() => {submit()}}>

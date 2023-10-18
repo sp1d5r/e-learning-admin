@@ -15,6 +15,7 @@ function AddCourse() {
     const [errors, setErrors] = useState([]);
     const [refresh, setRefresh] = useState(false);
     const [url, setURL] = useState("");
+    const [tags, setTags] = useState([]);
     const navigate = useNavigate();
 
     const _get_difficulty_name = () => {
@@ -78,7 +79,7 @@ function AddCourse() {
 
     const submit = () => {
         if (checkFields()) {
-            uploadCourse(courseName, description, courseColor, url, time, difficulty, successful_course_upload, failed_course_upload)
+            uploadCourse(courseName, description, courseColor, url, time, difficulty, tags, successful_course_upload, failed_course_upload)
         }
 
         window.scrollTo(0,0);
@@ -130,7 +131,7 @@ function AddCourse() {
                 </Form.Group>
 
                 <Form.Group className="mb-3" controlId="formBasicEmail">
-                    <Form.Label>Course Title</Form.Label>
+                    <Form.Label>Course Description</Form.Label>
                     <Form.Control type="text" placeholder={description} onChange={
                         (e) => {
                             if (e.target.value !==""){
@@ -175,6 +176,29 @@ function AddCourse() {
                         Don't worry you can change this later
                     </Form.Text>
                 </Form.Group>
+
+                <Form.Group className="mb-3" controlId="formBasicCheckbox">
+
+                    <Form.Label>Add Tags</Form.Label>
+                    <Form.Control type="string" placeholder={tags}  onChange={(e) => {
+                        if (e.target.value !== null){
+                            setTags([...e.target.value.split(",")]);
+                        }
+                    }
+                    }/>
+                    <Form.Text id="passwordHelpBlock" muted>
+                        Seperate tags with a ,
+                    </Form.Text>
+
+
+                    <div style={{display: "flex", gap: 10, justifyContent: "flex-start" , alignItems: "center"}}>
+                        {tags.map((elem, index) => {
+                            return <div style={{backgroundColor: "blue", color: "white", padding: 10, borderRadius: 5}}>{elem}</div>
+                        })}
+                    </div>
+
+                </Form.Group>
+
 
                 <Button variant="primary" onClick={() => {submit()}}>
                     Submit

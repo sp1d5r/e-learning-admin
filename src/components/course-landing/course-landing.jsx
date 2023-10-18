@@ -86,7 +86,9 @@ function CourseLanding() {
                         coursColor={course_information.color}
                         courseTitle={course_information.courseName}
                         courseTime={course_information.time}
+                        courseDescription={course_information.description}
                         courseDifficutly={course_information.difficulty}
+                        courseTags={course_information.tags ? course_information.tags : []}
                         lessons={lessons}
                     />
                 </>) : <> {loading ? (

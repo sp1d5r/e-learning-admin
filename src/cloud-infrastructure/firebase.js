@@ -51,7 +51,7 @@ export async function getCourse(id) {
     return courseItems.data();
 }
 
-export function uploadCourse(courseName, description, courseColor, thumbnail, time, difficulty, successCallback, failedCallback){
+export function uploadCourse(courseName, description, courseColor, thumbnail, time, difficulty, tags, successCallback, failedCallback){
     const docRef = addDoc(collection(firestore, "courses"), {
         courseName: courseName,
         color: courseColor,
@@ -60,7 +60,8 @@ export function uploadCourse(courseName, description, courseColor, thumbnail, ti
         time: time,
         difficulty: difficulty,
         lessons: [],
-        lessonNames: []
+        lessonNames: [],
+        tags: tags
     }).then((snapshot) => {
         console.log("Successfully uploaded course" + snapshot.id);
         successCallback(snapshot.id)
@@ -71,10 +72,11 @@ export function uploadCourse(courseName, description, courseColor, thumbnail, ti
     });
 }
 
-export function editCourse(id, courseName, courseColor, thumbnail, time, difficulty, lessons, successCallback, failedCallback) {
+export function editCourse(id, description, courseName, courseColor, thumbnail, time, difficulty, lessons, tags, successCallback, failedCallback) {
     const data = {
         courseName: courseName,
         color: courseColor,
+        description: description,
         thumbnail: thumbnail,
         time: time,
         difficulty: difficulty,
@@ -83,7 +85,8 @@ export function editCourse(id, courseName, courseColor, thumbnail, time, difficu
         }),
         lessonNames: lessons.map((lesson) => {
             return lesson.title
-        })
+        }),
+        tags: tags
     };
 
     console.log("data", data)
