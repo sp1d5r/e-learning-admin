@@ -73,6 +73,7 @@ export function uploadCourse(courseName, description, courseColor, thumbnail, ti
 }
 
 export function editCourse(id, description, courseName, courseColor, thumbnail, time, difficulty, lessons, tags, successCallback, failedCallback) {
+    console.log({id, description, courseName, courseColor, thumbnail, time, difficulty, lessons, tags, successCallback, failedCallback})
     const data = {
         courseName: courseName,
         color: courseColor,
@@ -252,7 +253,7 @@ export function uploadLesson(course_id, lesson_title, description, url, difficul
                 }
                 console.log("",_lessons)
                 _lessons.push({id: snapshot.id, title: lesson_title});
-                editCourse(course_id, res.courseName, res.color, res.thumbnail, res.time, res.difficulty, _lessons,
+                editCourse(course_id, res.description, res.courseName, res.color, res.thumbnail, res.time, res.difficulty, _lessons, res.tags,
                     successCallback,
                     failedCallback)
             })
